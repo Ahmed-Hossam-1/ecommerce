@@ -28,6 +28,7 @@
 ## Design (UI/UX):
 
 - From my imagination
+- craete by figma :https://www.figma.com/design/3YgmiOnQCPsXkH4MPTFQ8A/ecommerce?node-id=0-1&t=fHEO47v8WvobG1EP-1
 
 ## Clients:
 
