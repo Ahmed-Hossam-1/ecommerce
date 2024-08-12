@@ -1,30 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useSigninUserMutation, useSignupUserMutation } from '../features/auth/api/authSlice';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { signinSchema, signupSchema } from '../utils/validations';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Cookies from 'universal-cookie';
+import AuthInput from '../components/AuthInput';
 import { z } from 'zod';
-import { useSigninUserMutation, useSignupUserMutation } from '../features/auth/api/authSlice';
 
 const Signup = () => {
   const { pathname } = useLocation();
+  const nav = useNavigate();
+  const cookies = new Cookies(null, { path: '/' });
   type ISignUp = z.infer<typeof signupSchema>;
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-    // reset,
+    reset,
   } = useForm<ISignUp>({
     mode: 'onChange',
     resolver: zodResolver(pathname == '/signup' ? signupSchema : signinSchema),
   });
 
-  const [signupUser, { data: returnSignup, isSuccess }] = useSignupUserMutation();
+  const [signupUser] = useSignupUserMutation();
   const [signinUser] = useSigninUserMutation();
 
   const onSubmit: SubmitHandler<ISignUp> = async data => {
-    console.log(data);
-    console.log(pathname);
     try {
       if (pathname === '/signup') {
         const user = {
@@ -33,13 +35,22 @@ const Signup = () => {
           password: data.password,
         };
         const res = await signupUser(user);
-        console.log(returnSignup, res, isSuccess);
+        cookies.set('token', res.data.jwt);
+        cookies.set('role', res.data.role);
+        if (res.data.role == 'admin' || res.data.role == 'seller') nav('/admin_page');
+        else nav('/');
+        reset();
       } else if (pathname === '/signin') {
         const user = {
           email: data.email,
           password: data.password,
         };
-        await signinUser(user);
+        const res = await signinUser(user);
+        cookies.set('token', res.data.jwt);
+        cookies.set('role', res.data.role);
+        if (res.data.role == 'admin' || res.data.role == 'seller') nav('/admin_page');
+        else nav('/');
+        reset();
       }
     } catch (err) {
       console.error(err);
@@ -48,56 +59,46 @@ const Signup = () => {
 
   return (
     <div className="w-full h-[100vh] flex">
-      <div className="w-[40%] p-[30px] flex flex-col justify-center rounded-md bg-white">
+      <div className="w-[40%] p-[30px] flex flex-col justify-center bg-white dark:bg-black">
         <h1 className="text-[30px] text-secondary font-bold text-center pb-3">
           {pathname === '/signup' ? 'Sign Up' : 'Sign in'}
         </h1>
         <form className="flex flex-col gap-y-3 items-center" onSubmit={handleSubmit(onSubmit)}>
           {pathname === '/signup' && (
-            <div className="flex flex-col justify-center items-start">
-              <label htmlFor="name">name</label>
-              <input
-                className="w-[350px] border border-black rounded-md px-3 py-1"
-                id="name"
-                type="text"
-                placeholder="First name and last name"
-                {...register('name')}
-              />
-              {errors.name && <span>{errors.name.message}</span>}
-            </div>
+            <AuthInput
+              id="name"
+              register={register}
+              errors={errors}
+              type="text"
+              placeholder="First name and last name"
+              label="name"
+            />
           )}
-          <div className="flex flex-col justify-center items-start">
-            <label htmlFor="email">email</label>
-            <input
-              className="w-[350px] border border-black rounded-md px-3 py-1"
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              {...register('email')}
-            />
-            {errors.email && <span>{errors.email.message}</span>}
-          </div>
-          <div className="flex flex-col justify-center items-start">
-            <label htmlFor="password">Password</label>
-            <input
-              className="w-[350px] border border-black rounded-md px-3 py-1"
-              type="password"
-              placeholder="Enter your password"
-              {...register('password')}
-            />
-            {errors.password && <span>{errors.password.message}</span>}
-          </div>
+          <AuthInput
+            id="email"
+            register={register}
+            errors={errors}
+            type="email"
+            placeholder="Enter your email"
+            label="email"
+          />
+          <AuthInput
+            id="password"
+            register={register}
+            errors={errors}
+            type="password"
+            placeholder="Enter your password"
+            label="password"
+          />
           {pathname === '/signup' && (
-            <div className="flex flex-col justify-center items-start">
-              <label htmlFor="confrim_password">Confirm password</label>
-              <input
-                className="w-[350px] border border-black rounded-md px-3 py-1"
-                type="password"
-                placeholder="Enter Your Confirm Password"
-                {...register('confirm_password')}
-              />
-              {errors.confirm_password && <span>{errors.confirm_password.message}</span>}
-            </div>
+            <AuthInput
+              id="confirm_password"
+              register={register}
+              errors={errors}
+              type="password"
+              placeholder="Enter your confirm password"
+              label="confirm password"
+            />
           )}
           <button
             className="w-[350px] bg-secondary p-2 rounded-md mt-3"
