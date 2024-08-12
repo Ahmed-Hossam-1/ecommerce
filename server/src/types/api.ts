@@ -1,5 +1,3 @@
-import { User } from './typeDao';
-
 export interface SignUpRequest {
   name: string;
   email: string;
@@ -8,7 +6,7 @@ export interface SignUpRequest {
 }
 
 export interface SignUpResponse {
-  user: Pick<User, 'email' | 'id' | 'name' | 'role'>;
+  role: string;
   jwt: string;
 }
 

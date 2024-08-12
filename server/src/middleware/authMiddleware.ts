@@ -1,6 +1,6 @@
 import { db } from '../datastore';
 import { ExpressHandler } from '../types/typeDao';
-import { verfiyJwt } from '../utils/auth';
+import { verifyJwt } from '../utils/auth';
 
 export const authMiddleware: ExpressHandler<any, any> = async (req, res, next) => {
   const authHeader = req.headers['Authorization'] || req.headers['authorization'];
@@ -13,8 +13,9 @@ export const authMiddleware: ExpressHandler<any, any> = async (req, res, next) =
   }
   const token = (authHeader as string).split(' ')[1];
   try {
-    const payload = verfiyJwt(token);
-    const user = await db.getUserById(payload.userId);
+    const payload = verifyJwt(token);
+    // console.log(payload);
+    const user = await db.getUserById(payload.userId!);
     if (!user) {
       throw 'not found user';
     }
