@@ -7,7 +7,7 @@ const ChangeLang = () => {
     <div>
       {i18n.language === 'ar' ? (
         <span
-          className="new-lang cursor-pointer dark:text-[var(--white-color)] text-[var(--main-dark)]"
+          className="new-lang cursor-pointer text-[var(--main-dark)]"
           onClick={() => {
             i18n.changeLanguage('en');
           }}
@@ -16,7 +16,7 @@ const ChangeLang = () => {
         </span>
       ) : (
         <span
-          className="new-lang cursor-pointer dark:text-[var(--white-color)] text-[var(--main-dark)]"
+          className="new-lang cursor-pointer text-[var(--main-dark)]"
           onClick={() => {
             i18n.changeLanguage('ar');
           }}

@@ -12,7 +12,7 @@ interface Tprops {
 const Sidebar: FC<Tprops> = ({ isSidebarOpen, toggleSidebar }) => {
   return (
     <aside
-      className={`flex flex-col items-center pt-5 bg-background transition-all duration-300 ${
+      className={`fixed h-[100vh] flex flex-col items-center pt-5 bg-background transition-all duration-300 ${
         isSidebarOpen ? 'w-[18%]' : 'w-[5%]'
       }`}
     >

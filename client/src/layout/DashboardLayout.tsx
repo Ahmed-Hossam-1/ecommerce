@@ -13,7 +13,9 @@ const DashboardLayout = () => {
   return (
     <div className="flex justify-between h-[100vh]">
       {/* Sidebar */}
-      <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <div>
+        <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      </div>
 
       {/* Main Content (Outlet) */}
       <div className={`transition-all duration-300 ${isSidebarOpen ? 'w-[82%]' : 'w-[95%]'}`}>

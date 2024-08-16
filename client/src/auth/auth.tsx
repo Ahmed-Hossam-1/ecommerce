@@ -59,7 +59,7 @@ const Signup = () => {
 
   return (
     <div className="w-full h-[100vh] flex">
-      <div className="w-[40%] p-[30px] flex flex-col justify-center bg-white dark:bg-black">
+      <div className="w-[40%] p-[30px] flex flex-col justify-center bg-white">
         <h1 className="text-[30px] text-secondary font-bold text-center pb-3">
           {pathname === '/signup' ? 'Sign Up' : 'Sign in'}
         </h1>

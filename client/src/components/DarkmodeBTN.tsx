@@ -1,23 +1,26 @@
 import { useDarkMode } from '../context/DarkMode';
-import './DarkMode.css';
+
 const DarkmodeBTN = () => {
   const { theme, toggleTheme } = useDarkMode();
   return (
-    // <div>
-    //   <button onClick={toggleTheme}>{theme === 'dark' ? 'Light' : 'Dark'} Mode</button>
-    // </div>
-
-    <div className="dark_mode">
+    <div>
       <input
         onClick={toggleTheme}
-        className="dark_mode_input"
+        className="hidden"
         type="checkbox"
         id="darkmode-toggle"
         checked={theme === 'dark'}
       />
-      <label className="dark_mode_label" htmlFor="darkmode-toggle">
-        <img src="/images/Sun.svg" className="sun w-[100px]" alt="Sun" />
-        <img src="/images/Moon.svg" className="moon w-[100px]" alt="Moon" />
+      <label htmlFor="darkmode-toggle">
+        {theme === 'dark' ? (
+          <div className="w-[32px] h-[32px] flex justify-center items-center rounded-full bg-[#d8860bbd] cursor-pointer">
+            <img src="/images/Sun.svg" className="w-[20px]" alt="Sun" />
+          </div>
+        ) : (
+          <div className="w-[32px] h-[32px] flex justify-center items-center rounded-full bg-[#3a3a3a8f] cursor-pointer">
+            <img src="/images/Moon.svg" className="w-[20px]" alt="Moon" />
+          </div>
+        )}
       </label>
     </div>
   );

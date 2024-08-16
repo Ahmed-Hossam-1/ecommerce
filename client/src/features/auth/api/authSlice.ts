@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-const BASE_URL = 'http://localhost:5000';
+export const BASE_URL = 'http://localhost:5000';
 
 interface signupArg {
   name: string;
@@ -14,7 +14,7 @@ interface signinArg {
 }
 
 export const authSlice = createApi({
-  reducerPath: 'api',
+  reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   tagTypes: ['Users'],
   endpoints: builder => ({
