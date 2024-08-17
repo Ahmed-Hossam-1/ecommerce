@@ -33,8 +33,8 @@ export class SqlDataStore implements DataStore {
     );
   }
 
-  getAllUser(): Promise<User> {
-    return this.db.all('SELECT * FROM USER');
+  getAllUser(): Promise<User[]> {
+    return this.db.all('SELECT id,name,email,role FROM USER');
   }
 
   getUserById(id: string): Promise<User> {

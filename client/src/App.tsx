@@ -14,7 +14,6 @@ import RequierBack from './auth/RequierBack';
 import AuthRoutingWeb from './auth/AuthRoutingWeb';
 import DashboardLayout from './layout/DashboardLayout';
 import UsersPage from './dashboard/pages/Users.page';
-import Seller_page from './dashboard/pages/Seller.Page';
 import Seller_req_page from './dashboard/pages/Seller_req.page';
 import Categories_page from './dashboard/pages/Categories.page';
 import Products_page from './dashboard/pages/Products.page';
@@ -35,7 +34,7 @@ const App = () => {
           <Route path="admin_page" element={<DashboardLayout />}>
             <Route index element={<AdminPage />} />
             <Route path="users" element={<UsersPage />} />
-            <Route path="sellers" element={<Seller_page />} />
+            {/* <Route path="sellers" element={<Seller_page />} /> */}
             <Route path="seller_req" element={<Seller_req_page />} />
             <Route path="categories" element={<Categories_page />} />
             <Route path="products" element={<Products_page />} />

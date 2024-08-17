@@ -1,12 +1,16 @@
 import React from 'react';
 import { Column, DataItem } from '../types/type';
+import { useLocation } from 'react-router-dom';
 
 interface TableProps {
   columns: Column[];
   data: DataItem[];
+  onEdit: (item: DataItem) => void;
+  onDelete: (item: DataItem) => void;
 }
 
-const Table: React.FC<TableProps> = ({ columns, data }) => {
+const Table: React.FC<TableProps> = ({ columns, data, onEdit, onDelete }) => {
+  const { pathname } = useLocation();
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -20,6 +24,10 @@ const Table: React.FC<TableProps> = ({ columns, data }) => {
                 {col.title}
               </th>
             ))}
+
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
@@ -30,6 +38,25 @@ const Table: React.FC<TableProps> = ({ columns, data }) => {
                   {item[col.key]}
                 </td>
               ))}
+
+              <>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {pathname !== '/admin_page/seller_req' && (
+                    <button
+                      onClick={() => onEdit(item)}
+                      className="text-blue-500 hover:text-blue-700 mr-2"
+                    >
+                      Edit
+                    </button>
+                  )}
+                  <button
+                    onClick={() => onDelete(item)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </>
             </tr>
           ))}
         </tbody>

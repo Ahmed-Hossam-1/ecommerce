@@ -6,11 +6,11 @@ export const LinksSidebar = [
     icon: faUser,
     link: 'users',
   },
-  {
-    title: 'Seller',
-    icon: faUser,
-    link: 'sellers',
-  },
+  // {
+  //   title: 'Seller',
+  //   icon: faUser,
+  //   link: 'sellers',
+  // },
   {
     title: 'Seller Request',
     icon: faBullhorn,
