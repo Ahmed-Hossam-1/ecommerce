@@ -51,11 +51,11 @@ export const updateUser: ExpressHandlerWithParams<
   updateUserResponse
 > = async (req, res) => {
   const { userId } = req.params;
-  const { name, email, password, role } = req.body;
+  const { name, email, role } = req.body;
   if (!userId) {
     return res.status(400).send({ error: 'User ID is required' });
   }
-  if (!email || !name || !password || !role) {
+  if (!email || !name || !role) {
     return res.status(400).send({ error: 'All fields are required' });
   }
   const existing = await db.getUserById(userId);
@@ -72,10 +72,8 @@ export const updateUser: ExpressHandlerWithParams<
     id: userId,
     name,
     email,
-    password: passwordHash(password),
     role,
   };
-  console.log(updatedUser);
 
   await db.updateUser(updatedUser);
 
@@ -104,4 +102,27 @@ export const deleteUser: ExpressHandlerWithParams<{ userId: string }, {}, {}> = 
   }
   await db.deleteUser(userId);
   res.status(200).send({ message: 'User deleted' });
+};
+
+export const getUserByID: ExpressHandlerWithParams<
+  { userId: string },
+  {},
+  { user: Partial<User> }
+> = async (req, res) => {
+  const { userId } = req.params;
+  if (!userId) {
+    return res.status(400).send({ error: 'User ID is required' });
+  }
+  const user = await db.getUserById(userId);
+  if (!user) {
+    return res.status(404).send({ error: 'User not found' });
+  }
+  res.status(200).send({
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+  });
 };

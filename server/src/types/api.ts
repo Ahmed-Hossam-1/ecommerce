@@ -28,7 +28,7 @@ export interface UsersResponse {
 export interface createUserRequest {
   name: string;
   email: string;
-  password: string;
+  password?: string;
   role: 'user' | 'admin' | 'seller';
 }
 

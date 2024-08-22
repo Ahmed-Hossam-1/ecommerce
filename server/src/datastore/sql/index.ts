@@ -79,10 +79,9 @@ export class SqlDataStore implements DataStore {
 
   async updateUser(user: User): Promise<void> {
     await this.db.run(
-      'UPDATE USER SET name=?,email=?,password=?,role=? WHERE id=?',
+      'UPDATE USER SET name=?,email=?,role=? WHERE id=?',
       user.name,
       user.email,
-      user.password,
       user.role,
       user.id
     );
