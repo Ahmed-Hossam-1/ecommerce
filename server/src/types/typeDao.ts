@@ -5,12 +5,21 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  password?: string;
+  password: string;
   role: 'user' | 'admin' | 'seller';
 }
 
+export interface SellerReq {
+  requestId: string;
+  userId: string;
+  name: string;
+  email: string;
+  password: string;
+  status: 'approved' | 'rejected' | 'pending';
+}
+
 // express handler
-export type withError<T> = T & { error: string };
+export type withError<T> = T & { error: string; message: string };
 export type ExpressHandler<Req, Res> = RequestHandler<
   string,
   Partial<withError<Res>>,

@@ -3,13 +3,10 @@ export interface Column {
   title: string;
 }
 
-export interface DataItem {
-  [key: string]: string | number;
-}
-
 export interface User {
   id: number;
   name: string;
   email: string;
+  password?: string;
   role: string;
 }

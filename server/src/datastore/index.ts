@@ -1,7 +1,8 @@
+import { SellerReqDao } from './dao/SellerReqDao';
 import { UserDao } from './dao/UserDao';
 import { SqlDataStore } from './sql';
 
-export interface DataStore extends UserDao {}
+export interface DataStore extends UserDao, SellerReqDao {}
 
 export let db: DataStore;
 

@@ -15,6 +15,45 @@ export const userSlice = createApi({
       query: () => '/api/user',
       providesTags: ['Users'],
     }),
+    createUser: builder.mutation<User, User>({
+      query: body => ({
+        url: '/api/user',
+        method: 'POST',
+        body: {
+          name: body.name,
+          email: body.email,
+          password: body.password,
+          role: body.role,
+        },
+      }),
+      invalidatesTags: ['Users'],
+    }),
+    updateUser: builder.mutation<User, User>({
+      query: body => ({
+        url: `/api/user/${body.id}`,
+        method: 'PUT',
+        body: {
+          name: body.name,
+          email: body.email,
+          password: body.password,
+          role: body.role,
+        },
+      }),
+      invalidatesTags: ['Users'],
+    }),
+    deleteUser: builder.mutation<User, void>({
+      query: id => ({
+        url: `/api/user/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Users'],
+    }),
   }),
 });
-export const { useGetAllUsersQuery } = userSlice;
+
+export const {
+  useGetAllUsersQuery,
+  useCreateUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = userSlice;

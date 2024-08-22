@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { Column, DataItem } from '../types/type';
+import { Column } from '../types/type';
 import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface TableProps {
   columns: Column[];
-  data: DataItem[];
-  onEdit: (item: DataItem) => void;
-  onDelete: (item: DataItem) => void;
+  data: any[];
+  onEdit: string;
+  onDelete: (item: any) => void;
 }
 
 const Table: React.FC<TableProps> = ({ columns, data, onEdit, onDelete }) => {
@@ -42,12 +44,12 @@ const Table: React.FC<TableProps> = ({ columns, data, onEdit, onDelete }) => {
               <>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {pathname !== '/admin_page/seller_req' && (
-                    <button
-                      onClick={() => onEdit(item)}
-                      className="text-blue-500 hover:text-blue-700 mr-2"
-                    >
+                    <Link to={onEdit} className="text-blue-500 hover:text-blue-700 mr-2">
                       Edit
-                    </button>
+                    </Link>
+                  )}
+                  {pathname == '/admin_page/seller_req' && (
+                    <button className="text-blue-500 hover:text-blue-700 mr-2">Approve</button>
                   )}
                   <button
                     onClick={() => onDelete(item)}

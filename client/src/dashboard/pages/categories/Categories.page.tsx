@@ -1,5 +1,6 @@
-import Table from '../../components/Table';
-import { Column } from '../../types/type';
+import { Link } from 'react-router-dom';
+import Table from '../../../components/Table';
+import { Column } from '../../../types/type';
 
 const Categories_page = () => {
   const columns: Column[] = [
@@ -15,9 +16,12 @@ const Categories_page = () => {
   return (
     <>
       <div className="flex justify-end p-4">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <Link
+          to="addcategory"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
           Add Category
-        </button>
+        </Link>
       </div>
       <div className="p-4">
         <Table columns={columns} data={category} onEdit={() => {}} onDelete={() => {}} />

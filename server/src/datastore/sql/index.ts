@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { DataStore } from '..';
 import { Database, open } from 'sqlite';
-import { User } from '../../types/typeDao';
+import { SellerReq, User } from '../../types/typeDao';
 import path from 'path';
 
 export class SqlDataStore implements DataStore {
@@ -22,6 +22,34 @@ export class SqlDataStore implements DataStore {
     return this;
   }
 
+  async addSellerRequest(seller: SellerReq): Promise<void> {
+    await this.db.run(
+      'INSERT INTO SELLER_REQUEST (id,userId,name,email,password,status) VALUES (?,?,?,?,?,?)',
+      seller.requestId,
+      seller.userId,
+      seller.name,
+      seller.email,
+      seller.password,
+      seller.status
+    );
+  }
+
+  getAllSellerRequests(): Promise<SellerReq[]> {
+    return this.db.all('SELECT id,userId,name,email,status FROM SELLER_REQUEST');
+  }
+
+  getSellerRequestById(id: string): Promise<SellerReq | undefined> {
+    return this.db.get('SELECT * FROM SELLER_REQUEST WHERE id=?', id);
+  }
+
+  async updateSellerRequestStatus(id: string, status: string): Promise<void> {
+    await this.db.run('UPDATE SELLER_REQUEST SET status=? WHERE id=?', status, id);
+  }
+
+  getSellerByEmail(email: string): Promise<SellerReq | undefined> {
+    return this.db.get('SELECT * FROM SELLER_REQUEST WHERE email=?', email);
+  }
+
   async createUser(user: User): Promise<void> {
     await this.db.run(
       'INSERT INTO USER (id,email,password,name,role) VALUES (?,?,?,?,?)',
@@ -37,19 +65,26 @@ export class SqlDataStore implements DataStore {
     return this.db.all('SELECT id,name,email,role FROM USER');
   }
 
-  getUserById(id: string): Promise<User> {
-    return this.db.all('SELECT * FROM USER where id=?', id);
+  getUserById(id: string): Promise<User | undefined> {
+    return this.db.get('SELECT * FROM USER where id=?', id);
   }
 
-  deleteUser(__: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async deleteUser(id: string): Promise<void> {
+    await this.db.run('DELETE FROM USER WHERE id=?', id);
   }
 
   getUserByEmail(email: string): Promise<User | undefined> {
-    return this.db.get<User>('SELECT * FROM USER WHERE email=?', email);
+    return this.db.get('SELECT * FROM USER WHERE email=?', email);
   }
 
-  updateUser(__: User): Promise<User> {
-    throw new Error('Method not implemented.');
+  async updateUser(user: User): Promise<void> {
+    await this.db.run(
+      'UPDATE USER SET name=?,email=?,password=?,role=? WHERE id=?',
+      user.name,
+      user.email,
+      user.password,
+      user.role,
+      user.id
+    );
   }
 }

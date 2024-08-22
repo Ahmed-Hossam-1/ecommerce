@@ -10,7 +10,7 @@ interface InputProps {
   label: string;
 }
 
-const AuthInput: FC<InputProps> = ({ register, id, errors, type, placeholder, label }) => {
+const CustomInput: FC<InputProps> = ({ register, id, errors, type, placeholder, label }) => {
   return (
     <div className="flex flex-col justify-center items-start">
       <label
@@ -31,4 +31,4 @@ const AuthInput: FC<InputProps> = ({ register, id, errors, type, placeholder, la
   );
 };
 
-export default AuthInput;
+export default CustomInput;

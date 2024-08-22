@@ -5,7 +5,7 @@ import { signinSchema, signupSchema } from '../utils/validations';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie';
-import AuthInput from '../components/AuthInput';
+import CustomInput from '../components/CustomInput';
 import { z } from 'zod';
 
 const Signup = () => {
@@ -13,6 +13,7 @@ const Signup = () => {
   const nav = useNavigate();
   const cookies = new Cookies(null, { path: '/' });
   type ISignUp = z.infer<typeof signupSchema>;
+
   const {
     handleSubmit,
     register,
@@ -65,7 +66,7 @@ const Signup = () => {
         </h1>
         <form className="flex flex-col gap-y-3 items-center" onSubmit={handleSubmit(onSubmit)}>
           {pathname === '/signup' && (
-            <AuthInput
+            <CustomInput
               id="name"
               register={register}
               errors={errors}
@@ -74,7 +75,7 @@ const Signup = () => {
               label="name"
             />
           )}
-          <AuthInput
+          <CustomInput
             id="email"
             register={register}
             errors={errors}
@@ -82,7 +83,7 @@ const Signup = () => {
             placeholder="Enter your email"
             label="email"
           />
-          <AuthInput
+          <CustomInput
             id="password"
             register={register}
             errors={errors}
@@ -91,7 +92,7 @@ const Signup = () => {
             label="password"
           />
           {pathname === '/signup' && (
-            <AuthInput
+            <CustomInput
               id="confirm_password"
               register={register}
               errors={errors}
@@ -118,7 +119,7 @@ const Signup = () => {
               {pathname === '/signup' ? 'Sign in' : 'Sign up'}
             </Link>
           </p>
-          <Link to="" className="underline text-secondary">
+          <Link to="/register_seller" className="underline text-secondary">
             register as a seller
           </Link>
         </div>

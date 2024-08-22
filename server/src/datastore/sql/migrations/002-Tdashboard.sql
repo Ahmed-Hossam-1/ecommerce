@@ -1,9 +1,12 @@
-CREATE TABLE SELLER_REQUEST (
-    requestId  VARCHAR PRIMARY KEY,
-    requestDate DATE NOT NULL,
-    sellerName VARCHAR NOT NULL,
-    sellerEmail VARCHAR NOT NULL,
-    sellerPhone VARCHAR NOT NULL
+CREATE TABLE SELLER_REQUEST(
+      id        VARCHAR PRIMARY KEY,
+      userId    VARCHAR NOT NULL,
+      name      VARCHAR NOT NULL,
+      email     VARCHAR NOT NULL UNIQUE,
+      password  VARCHAR NOT NULL,
+      status    VARCHAR NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')),
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE CATEGORIES (
