@@ -1,6 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-export const BASE_URL = 'http://localhost:5000';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface signupArg {
   name: string;
@@ -14,25 +12,25 @@ interface signinArg {
 }
 
 export const authSlice = createApi({
-  reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
-  tagTypes: ['Users'],
-  endpoints: builder => ({
+  reducerPath: "authApi",
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
+  tagTypes: ["Users"],
+  endpoints: (builder) => ({
     signupUser: builder.mutation({
       query: ({ name, email, password }: signupArg) => ({
-        url: '/api/auth/signup',
-        method: 'POST',
+        url: "/api/auth/signup",
+        method: "POST",
         body: { name, email, password },
       }),
-      invalidatesTags: ['Users'],
+      invalidatesTags: ["Users"],
     }),
     signinUser: builder.mutation({
       query: ({ email, password }: signinArg) => ({
-        url: '/api/auth/signin',
-        method: 'POST',
+        url: "/api/auth/signin",
+        method: "POST",
         body: { email, password },
       }),
-      invalidatesTags: ['Users'],
+      invalidatesTags: ["Users"],
     }),
   }),
 });

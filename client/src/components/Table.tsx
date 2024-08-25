@@ -8,11 +8,24 @@ interface TableProps {
   columns: Column[];
   data: any[];
   onEdit: (id: string) => string;
-  onDelete: () => void;
+  onDelete: (id: string) => void;
+  aproved?: (id: string) => void;
+  rejected?: (id: string) => void;
+  isLoading?: boolean;
+  isErorr?: boolean;
 }
-
-const Table: React.FC<TableProps> = ({ columns, data, onEdit, onDelete }) => {
+const Table: React.FC<TableProps> = ({
+  columns,
+  data,
+  onEdit,
+  onDelete,
+  aproved,
+  rejected,
+  isLoading,
+  isErorr,
+}) => {
   const { pathname } = useLocation();
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200">
@@ -44,29 +57,60 @@ const Table: React.FC<TableProps> = ({ columns, data, onEdit, onDelete }) => {
                 </td>
               ))}
 
-              <>
+              {isLoading ? (
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {pathname !== "/admin_page/seller_req" && (
-                    <Link
-                      to={onEdit(item.id)}
-                      className="text-blue-500 hover:text-blue-700 mr-2"
-                    >
-                      Edit
-                    </Link>
-                  )}
-                  {pathname == "/admin_page/seller_req" && (
-                    <button className="text-blue-500 hover:text-blue-700 mr-2">
-                      Approve
-                    </button>
-                  )}
-                  <button
-                    onClick={() => onDelete(item.id)}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    Delete
-                  </button>
+                  Loading...
                 </td>
-              </>
+              ) : isErorr ? (
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  Error loading data.
+                </td>
+              ) : (
+                <>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {pathname !== "/admin_page/seller_req" && (
+                      <Link
+                        to={
+                          pathname == "/admin_page/categories"
+                            ? onEdit(item.categoryId)
+                            : onEdit(item.id)
+                        }
+                        className="text-blue-500 hover:text-blue-700 mr-2"
+                      >
+                        Edit
+                      </Link>
+                    )}
+                    {pathname == "/admin_page/seller_req" && (
+                      <>
+                        <button
+                          onClick={() => aproved && aproved(item.id)}
+                          className="text-blue-500 hover:text-blue-700 mr-2"
+                        >
+                          Approved
+                        </button>
+                        <button
+                          onClick={() => rejected && rejected(item.id)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          Rejected
+                        </button>
+                      </>
+                    )}
+                    {pathname !== "/admin_page/seller_req" && (
+                      <button
+                        onClick={() =>
+                          pathname == "/admin_page/categories"
+                            ? onDelete(item.categoryId)
+                            : onDelete(item.id)
+                        }
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

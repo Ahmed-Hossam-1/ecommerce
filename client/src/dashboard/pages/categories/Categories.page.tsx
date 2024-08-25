@@ -1,18 +1,27 @@
-import { Link } from 'react-router-dom';
-import Table from '../../../components/Table';
-import { Column } from '../../../types/type';
+import { Link } from "react-router-dom";
+import Table from "../../../components/Table";
+import { Column } from "../../../types/type";
+import {
+  useGetAllCategoriesQuery,
+  useDeleteCategoryMutation,
+} from "../../../features/category/api/categorySlice";
+import { toast } from "react-toastify";
 
 const Categories_page = () => {
   const columns: Column[] = [
-    { key: 'id', title: 'ID' },
-    { key: 'name', title: 'Name' },
-    { key: 'description', title: 'Description' },
+    { key: "categoryId", title: "ID" },
+    { key: "categoryName", title: "Name" },
+    { key: "categoryDescription", title: "Description" },
   ];
 
-  const category = [
-    { id: 1, name: 'Category 1', description: 'Category 1 description' },
-    { id: 2, name: 'Category 2', description: 'Category 2 description' },
-  ];
+  const { data, isLoading, isError } = useGetAllCategoriesQuery({});
+  const [deleteCategory] = useDeleteCategoryMutation();
+
+  const handleDelete = async (id: string) => {
+    const res = await deleteCategory(id);
+    toast.success(res.data.message);
+  };
+
   return (
     <>
       <div className="flex justify-end p-4">
@@ -24,7 +33,14 @@ const Categories_page = () => {
         </Link>
       </div>
       <div className="p-4">
-        <Table columns={columns} data={category} onEdit={() => {}} onDelete={() => {}} />
+        <Table
+          columns={columns}
+          data={data?.categories ?? []}
+          onEdit={(id: string) => `edite/${id}`}
+          onDelete={handleDelete}
+          isLoading={isLoading}
+          isErorr={isError}
+        />
       </div>
     </>
   );

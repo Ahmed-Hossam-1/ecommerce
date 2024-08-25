@@ -18,12 +18,11 @@ import DashboardLayout from "./layout/DashboardLayout";
 import Categories_page from "./dashboard/pages/categories/Categories.page";
 import Products_page from "./dashboard/pages/products/Products.page";
 import UsersPage from "./dashboard/pages/users/Users.page";
-import UseForm from "./dashboard/pages/users/UseForm";
-// import UserUpdate from "./dashboard/pages/users/UserUpdate";
-import AddCategory from "./dashboard/pages/categories/AddCategory";
+import UseFormUser from "./dashboard/pages/users/UseFormUser";
 import Seller_req_page from "./dashboard/pages/seller/Seller_req.page";
-import AddProduct from "./dashboard/pages/products/AddProduct";
+import UseFormProduct from "./dashboard/pages/products/UseFormProduct";
 import Reports_page from "./dashboard/pages/reports/Reports.page";
+import UseFormCategory from "./dashboard/pages/categories/UseFormCategory";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -46,18 +45,35 @@ const App = () => {
             {/* users */}
             <Route path="users" element={<Outlet />}>
               <Route index element={<UsersPage />} />
-              <Route path="adduser" element={<UseForm isEdit={false} />} />
-              <Route path="edite/:userId" element={<UseForm isEdit={true} />} />
+              <Route path="adduser" element={<UseFormUser isEdit={false} />} />
+              <Route
+                path="edite/:userId"
+                element={<UseFormUser isEdit={true} />}
+              />
             </Route>
             {/* categories */}
             <Route path="categories" element={<Outlet />}>
               <Route index element={<Categories_page />} />
-              <Route path="addcategory" element={<AddCategory />} />
+              <Route
+                path="addcategory"
+                element={<UseFormCategory isEdit={false} />}
+              />
+              <Route
+                path="edite/:categoryId"
+                element={<UseFormCategory isEdit={true} />}
+              />
             </Route>
             {/* prodcut */}
             <Route path="products" element={<Outlet />}>
               <Route index element={<Products_page />} />
-              <Route path="addproduct" element={<AddProduct />} />
+              <Route
+                path="addproduct"
+                element={<UseFormProduct isEdit={false} />}
+              />
+              <Route
+                path="edit/:productId"
+                element={<UseFormProduct isEdit={true} />}
+              />
             </Route>
             {/* seller_req */}
             <Route path="seller_req" element={<Seller_req_page />} />

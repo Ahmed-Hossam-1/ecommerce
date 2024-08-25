@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL } from "../../auth/api/authSlice";
 import { User } from "../../../types/type";
 
 interface GetUserResponse {
@@ -8,7 +7,7 @@ interface GetUserResponse {
 
 export const userSlice = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
   tagTypes: ["Users"],
   endpoints: (builder) => ({
     getAllUsers: builder.query<GetUserResponse, void>({

@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Table from "../../../components/Table";
 import {
@@ -6,6 +5,7 @@ import {
   useDeleteUserMutation,
 } from "../../../features/users/api/userSlice";
 import { Column } from "../../../types/type";
+import { toast } from "react-toastify";
 
 const UsersPage = () => {
   const columns: Column[] = [
@@ -16,11 +16,10 @@ const UsersPage = () => {
   ];
   const { isLoading, data: userData, isError } = useGetAllUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading data.</div>;
 
   const handleDelete = async (id: string) => {
-    await deleteUser(id);
+    const res = await deleteUser(id);
+    res.data && toast.success(res.data.message);
   };
 
   return (
@@ -39,6 +38,8 @@ const UsersPage = () => {
           data={userData?.users ?? []}
           onEdit={(id: string) => `edite/${id}`}
           onDelete={handleDelete}
+          isLoading={isLoading}
+          isErorr={isError}
         />
       </div>
     </>

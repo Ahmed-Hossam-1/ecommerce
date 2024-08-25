@@ -1,19 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createUserSchema } from "../../../utils/validations";
+import { createUserSchema, updateUserSchema } from "../../../utils/validations";
 import CustomDashInput from "../../components/CustomDashInput";
 import {
   useCreateUserMutation,
   useUpdateUserMutation, // Ensure this is imported
   useGetUserByIdQuery,
 } from "../../../features/users/api/userSlice";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { z } from "zod";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
-const UseForm = ({ isEdit }: { isEdit: boolean }) => {
-  const { userId } = useParams<{ userId: string }>(); // Make sure this matches your route parameter
+const UseFormUser = ({ isEdit }: { isEdit: boolean }) => {
+  const { userId } = useParams<{ userId: string }>();
   type createUser = z.infer<typeof createUserSchema>;
+  const { pathname } = useLocation();
+  const nav = useNavigate();
 
   const {
     handleSubmit,
@@ -22,10 +26,16 @@ const UseForm = ({ isEdit }: { isEdit: boolean }) => {
     setValue,
   } = useForm<createUser>({
     mode: "onChange",
-    resolver: zodResolver(createUserSchema),
+    resolver: zodResolver(
+      pathname == "/admin_page/users/adduser"
+        ? createUserSchema
+        : updateUserSchema
+    ),
   });
 
-  const { data: userData } = useGetUserByIdQuery(userId!, {
+  const [createUser] = useCreateUserMutation();
+  const [updateUser] = useUpdateUserMutation();
+  const { data: userData } = useGetUserByIdQuery(userId, {
     skip: !isEdit,
   });
 
@@ -35,19 +45,17 @@ const UseForm = ({ isEdit }: { isEdit: boolean }) => {
       setValue("email", userData.user.email);
       setValue("role", userData.user.role);
     }
-  }, [isEdit, userData, setValue]);
-
-  const nav = useNavigate();
-  const [createUser] = useCreateUserMutation();
-  const [updateUser] = useUpdateUserMutation(); // Ensure this is defined
+  }, [userData]);
 
   const onSubmit: SubmitHandler<createUser> = async (data) => {
     if (isEdit && userId) {
-      const res = await updateUser({ id: userId, ...data });
+      const res = await updateUser({ ...data, id: userId });
       res.data && nav("/admin_page/users");
+      res.data && toast.success("User updated successfully");
     } else {
       const res = await createUser(data);
       res.data && nav("/admin_page/users");
+      res.data && toast.success("User created successfully");
     }
   };
 
@@ -120,4 +128,4 @@ const UseForm = ({ isEdit }: { isEdit: boolean }) => {
   );
 };
 
-export default UseForm;
+export default UseFormUser;

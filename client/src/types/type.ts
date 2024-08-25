@@ -10,3 +10,9 @@ export interface User {
   password?: string;
   role: string;
 }
+
+export interface requests {
+  id: string;
+  name: string;
+  email: string;
+}
