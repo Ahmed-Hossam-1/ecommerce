@@ -1,8 +1,10 @@
+import { CategoryDao } from './dao/CategoriesDao';
+import { ProductDao } from './dao/ProductDao';
 import { SellerReqDao } from './dao/SellerReqDao';
 import { UserDao } from './dao/UserDao';
 import { SqlDataStore } from './sql';
 
-export interface DataStore extends UserDao, SellerReqDao {}
+export interface DataStore extends UserDao, SellerReqDao, CategoryDao, ProductDao {}
 
 export let db: DataStore;
 

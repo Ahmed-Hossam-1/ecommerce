@@ -16,15 +16,15 @@ CREATE TABLE CATEGORIES (
 );
 
 CREATE TABLE PRODUCTS (
-    productId               VARCHAR PRIMARY KEY,
-    productName             VARCHAR NOT NULL,
-    productDescription      VARCHAR NOT NULL,
-    productPrice            VARCHAR NOT NULL,
-    productQuantity         VARCHAR NOT NULL,
-    productMainImage        VARCHAR NOT NULL,
-    productImages           VARCHAR NOT NULL,
-    categoryId              VARCHAR NOT NULL,
-    sellerId                VARCHAR NOT NULL,
+    id               VARCHAR PRIMARY KEY,
+    name             VARCHAR NOT NULL,
+    description      VARCHAR NOT NULL,
+    price            VARCHAR NOT NULL,
+    quantity         VARCHAR NOT NULL,
+    mainImage        VARCHAR NOT NULL,
+    images           VARCHAR NOT NULL,
+    categoryId       VARCHAR NOT NULL,
+    sellerId         VARCHAR NOT NULL,
 
     FOREIGN KEY (categoryId) REFERENCES CATEGORIES (categoryId),
     FOREIGN KEY (sellerId) REFERENCES USER (id)

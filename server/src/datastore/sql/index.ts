@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 import { DataStore } from '..';
 import { Database, open } from 'sqlite';
-import { SellerReq, User } from '../../types/typeDao';
+import { Category, Product, SellerReq, User } from '../../types/typeDao';
 import path from 'path';
 
 export class SqlDataStore implements DataStore {
@@ -21,7 +21,83 @@ export class SqlDataStore implements DataStore {
 
     return this;
   }
+  // Product
+  async createProduct(product: Product): Promise<void> {
+    await this.db.run(
+      'INSERT INTO PRODUCTS (id,name,description,price,quantity,mainImage,images,categoryId,sellerId) VALUES (?,?,?,?,?,?,?,?,?)',
+      product.id,
+      product.name,
+      product.description,
+      product.price,
+      product.quantity,
+      product.mainImage,
+      product.images?.join(','),
+      product.categoryId,
+      product.sellerId
+    );
+  }
 
+  async getProducts(): Promise<Product[]> {
+    return this.db.all('SELECT * FROM PRODUCTS');
+  }
+
+  getProductById(id: string): Promise<Product | undefined> {
+    return this.db.get('SELECT * FROM PRODUCTS WHERE id=?', id);
+  }
+
+  async updateProduct(product: Product): Promise<void> {
+    await this.db.run(
+      'UPDATE PRODUCTS SET name=?,description=?,price=?,quantity=?,categoryId=?,sellerId=? WHERE id=?',
+      product.name,
+      product.description,
+      product.price,
+      product.quantity,
+      product.categoryId,
+      product.sellerId,
+      product.id
+    );
+  }
+
+  async deleteProduct(productId: string): Promise<void> {
+    await this.db.run('DELETE FROM PRODUCTS WHERE id=?', productId);
+  }
+
+  // Category
+  async createCategory(category: Category): Promise<void> {
+    await this.db.run(
+      'INSERT INTO CATEGORIES (categoryId,categoryName,categoryDescription) VALUES (?,?,?)',
+      category.categoryId,
+      category.categoryName,
+      category.categoryDescription
+    );
+  }
+
+  getAllCategories(): Promise<Category[]> {
+    return this.db.all('SELECT * FROM CATEGORIES');
+  }
+
+  getCategoryById(id: string): Promise<Category | undefined> {
+    return this.db.get('SELECT * FROM CATEGORIES WHERE categoryId=?', id);
+  }
+
+  getCategoryByName(name: string): Promise<Category | undefined> {
+    return this.db.get('SELECT * FROM CATEGORIES WHERE categoryName=?', name);
+  }
+
+  async updateCategory(category: Category): Promise<void> {
+    await this.db.run(
+      'UPDATE CATEGORIES SET categoryName=?,categoryDescription=? WHERE categoryId=?',
+      category.categoryName,
+      category.categoryDescription,
+      category.categoryId
+    );
+  }
+
+  async deleteCategory(id: string): Promise<void> {
+    await this.db.run('DELETE FROM CATEGORIES WHERE categoryId=?', id);
+  }
+
+  // Seller Request
   async addSellerRequest(seller: SellerReq): Promise<void> {
     await this.db.run(
       'INSERT INTO SELLER_REQUEST (id,userId,name,email,password,status) VALUES (?,?,?,?,?,?)',
@@ -50,6 +126,7 @@ export class SqlDataStore implements DataStore {
     return this.db.get('SELECT * FROM SELLER_REQUEST WHERE email=?', email);
   }
 
+  // User
   async createUser(user: User): Promise<void> {
     await this.db.run(
       'INSERT INTO USER (id,email,password,name,role) VALUES (?,?,?,?,?)',

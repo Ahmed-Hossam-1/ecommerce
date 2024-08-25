@@ -37,3 +37,21 @@ export type ExpressHandlerWithParams<Params, Req, Res> = RequestHandler<
 export interface jwtType {
   userId: string | undefined;
 }
+
+export interface Category {
+  categoryId: string;
+  categoryName: string;
+  categoryDescription: string;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  mainImage?: string;
+  images?: string[];
+  categoryId: string;
+  sellerId: string;
+}

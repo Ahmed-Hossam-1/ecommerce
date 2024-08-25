@@ -9,6 +9,7 @@ import {
 } from '../types/api';
 import { ExpressHandler, ExpressHandlerWithParams, User } from '../types/typeDao';
 import { passwordHash } from '../utils/passwordHash';
+import crypto from 'crypto';
 
 export const getAllUsers: ExpressHandler<UsersRequest, UsersResponse> = async (__, res) => {
   const usersDb: User[] = await db.getAllUser();

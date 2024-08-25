@@ -4,6 +4,7 @@ import { passwordHash } from '../utils/passwordHash';
 import { ExpressHandler, ExpressHandlerWithParams, SellerReq } from '../types/typeDao';
 import { createSellerRequest, createSellerResponse } from '../types/api';
 import crypto from 'crypto';
+import { emitNewSellerRequest } from '../utils/reqRealTime';
 
 export const createRequest: ExpressHandler<createSellerRequest, createSellerResponse> = async (
   req,
@@ -17,7 +18,7 @@ export const createRequest: ExpressHandler<createSellerRequest, createSellerResp
 
   const existingSellerReq = await db.getSellerByEmail(email);
   if (existingSellerReq) {
-    return res.status(400).send({ error: 'Seller already send request' });
+    return res.status(400).send({ error: 'Seller already sent request' });
   }
 
   const existingUser = await db.getUserByEmail(email);
@@ -25,14 +26,16 @@ export const createRequest: ExpressHandler<createSellerRequest, createSellerResp
     return res.status(400).send({ error: 'User already exists' });
   }
 
-  await db.addSellerRequest({
+  const newRequest: SellerReq = {
     requestId: crypto.randomUUID(),
     userId: crypto.randomUUID(),
     name,
     email,
     password: passwordHash(password),
     status: 'pending',
-  });
+  };
+
+  await db.addSellerRequest(newRequest);
 
   // Send email notification
   await sendEmail(
@@ -40,6 +43,8 @@ export const createRequest: ExpressHandler<createSellerRequest, createSellerResp
     'Your Seller Account Request has been Received',
     `Dear ${name},\n\nYour request to become a seller has been received. We will review your request and get back to you shortly.\n\nBest regards`
   );
+
+  emitNewSellerRequest(newRequest);
 
   res.status(200).send({ message: 'Request received' });
 };

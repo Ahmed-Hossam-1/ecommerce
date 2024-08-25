@@ -3,13 +3,12 @@ import { jwtType } from '../types/typeDao';
 
 export const createJwt = async (payload: jwtType): Promise<string> => {
   const token = await jwt.sign(payload, getJwt(), {
-    expiresIn: '30m',
+    expiresIn: '7d',
   });
   return token;
 };
 
 export const verifyJwt = (token: string): jwtType => {
-  console.log(process.env.JWT_SECRET);
   return jwt.verify(token, getJwt()) as jwtType;
 };
 

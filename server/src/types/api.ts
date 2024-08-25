@@ -1,4 +1,4 @@
-import { User } from './typeDao';
+import { Category, Product, User } from './typeDao';
 
 export interface SignUpRequest {
   name: string;
@@ -47,3 +47,44 @@ export interface createSellerRequest {
 }
 
 export interface createSellerResponse {}
+
+export interface createCategoryRequest {
+  categoryId: string;
+  categoryName: string;
+  categoryDescription: string;
+}
+
+export interface createCategoryResponse {}
+
+export interface getAllCategoriesRequest {}
+
+export interface getAllCategoriesResponse {
+  categories: Category[];
+}
+
+export interface updateCategoryRequest {
+  categoryName: string;
+  categoryDescription: string;
+}
+
+export interface updateCategoryResponse {}
+
+export interface createProductRequest {
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  categoryId: string;
+}
+
+export interface createProductResponse {
+  product: Partial<Product>;
+}
+
+export interface updateProductRequest {
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  categoryId: string;
+}
