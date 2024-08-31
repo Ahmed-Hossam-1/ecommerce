@@ -4,6 +4,8 @@ import {
   deleteProduct,
   getAllProducts,
   getProductById,
+  getProductsByCategory,
+  searchProducts,
   updateProduct,
 } from '../controller/product.controller';
 import { authMiddleware } from '../middleware/authMiddleware';
@@ -17,3 +19,5 @@ productRouter
   .put(authMiddleware, updateProduct as any)
   .delete(deleteProduct)
   .get(getProductById);
+productRouter.route('/search').post(searchProducts);
+productRouter.route('/products/:productByCategoryId').get(getProductsByCategory);

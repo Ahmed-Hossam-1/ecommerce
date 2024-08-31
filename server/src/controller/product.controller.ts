@@ -116,3 +116,36 @@ export const getProductById: ExpressHandlerWithParams<
   }
   res.json({ product });
 };
+
+export const searchProducts: ExpressHandler<
+  { searchTerm: string; categoryId: string },
+  { products: Product[] }
+> = async (req, res) => {
+  const { searchTerm, categoryId } = req.query;
+  console.log({ searchTerm, categoryId });
+
+  if (!searchTerm || !categoryId) {
+    return res
+      .status(400)
+      .json({ error: 'Bad Request', message: 'Search term and category ID are required' });
+  }
+
+  const products = await db.searchProducts(searchTerm, categoryId);
+  res.json({ products });
+};
+
+export const getProductsByCategory: ExpressHandlerWithParams<
+  { productByCategoryId: string },
+  {},
+  { products: Product[] }
+> = async (req, res) => {
+  const { productByCategoryId } = req.params;
+  if (!productByCategoryId) {
+    return res.status(400).json({ error: 'Bad Request', message: 'Category ID is required' });
+  }
+  const products = await db.getProductsByCategory(productByCategoryId);
+  if (!products) {
+    return res.status(404).json({ error: 'Not Found', message: 'Products not found' });
+  }
+  res.json({ products });
+};

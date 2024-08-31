@@ -88,3 +88,13 @@ export interface updateProductRequest {
   quantity: number;
   categoryId: string;
 }
+
+export interface createAddressRequest {
+  street: string;
+  city: string;
+  state: string;
+  country: string;
+  phone: string;
+}
+
+export interface editAddressRequest extends createAddressRequest {}

@@ -6,7 +6,8 @@ export interface ProductDao {
   getProductById: (productId: string) => Promise<Product | undefined>;
   updateProduct: (product: Product) => Promise<void>;
   deleteProduct: (productId: string) => Promise<void>;
-  // getProductsByCategory: (categoryId: string) => Promise<Product[]>;
+  searchProducts: (searchTerm: string, categoryId: string) => Promise<Product[]>;
+  getProductsByCategory: (categoryId: string) => Promise<Product[]>;
   // getProductsBySeller: (sellerId: string) => Promise<Product[]>;
   // searchProducts: (searchTerm: string) => Promise<Product[]>;
   // getProductsByCategoryAndSeller: (categoryId: string, sellerId: string) => Promise<Product[]>;

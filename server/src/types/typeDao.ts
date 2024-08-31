@@ -55,3 +55,13 @@ export interface Product {
   categoryId: string;
   sellerId: string;
 }
+
+export interface Address {
+  id: string;
+  userId: string;
+  street: string;
+  city: string;
+  state: string;
+  country: string;
+  phone: string;
+}

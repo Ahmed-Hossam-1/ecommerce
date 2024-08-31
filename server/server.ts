@@ -10,7 +10,10 @@ import { sellerReqRouter } from './src/routes/seller_req.route';
 import { errHandler } from './src/middleware/errorMiddleware';
 import { categoryRouter } from './src/routes/category.route';
 import { productRouter } from './src/routes/product.route';
+import { paymentRouter } from './src/routes/payment.route';
 import path from 'path';
+import { addressRouter } from './src/routes/address.route';
+import { orderRouter } from './src/routes/order.route';
 
 // Load environment variables
 dotenv.config();
@@ -35,6 +38,9 @@ dotenv.config();
   app.use('/api/seller_req', sellerReqRouter);
   app.use('/api/category', categoryRouter);
   app.use('/api/product', productRouter);
+  app.use('/api/payment', paymentRouter);
+  app.use('/api/address', addressRouter);
+  app.use('/api/order', orderRouter);
 
   // Error handling middleware
   app.use(errHandler);

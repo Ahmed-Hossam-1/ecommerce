@@ -127,3 +127,23 @@ export const getUserByID: ExpressHandlerWithParams<
     },
   });
 };
+
+export const getCurrentUser: ExpressHandler<{}, { user: Partial<User> }> = async (_, res) => {
+  const userId = res.locals.userId;
+
+  if (!userId) {
+    return res.status(401).send({ error: 'Unauthorized' });
+  }
+  const user = await db.getUserById(userId);
+  if (!user) {
+    return res.status(404).send({ error: 'User not found' });
+  }
+  res.status(200).send({
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+  });
+};

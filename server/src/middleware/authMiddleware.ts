@@ -3,7 +3,7 @@ import { ExpressHandler } from '../types/typeDao';
 import { verifyJwt } from '../utils/auth';
 
 export const authMiddleware: ExpressHandler<any, any> = async (req, res, next) => {
-  const authHeader = req.headers.authorization;
+  const authHeader = req.headers.authorization || req.headers.Authorization;
   if (!authHeader) {
     return res.status(401).json({
       status: 'fail',
@@ -12,7 +12,7 @@ export const authMiddleware: ExpressHandler<any, any> = async (req, res, next) =
     });
   }
 
-  const token = authHeader.split(' ')[1];
+  const token = (authHeader as string).split(' ')[1];
   if (!token) {
     return res.status(401).json({ error: 'Token missing' });
   }
@@ -27,11 +27,9 @@ export const authMiddleware: ExpressHandler<any, any> = async (req, res, next) =
 
     return next();
   } catch (error) {
-    return res
-      .status(401)
-      .json({
-        error: 'Invalid token',
-        details: error instanceof Error ? error.message : undefined,
-      });
+    return res.status(401).json({
+      error: 'Invalid token',
+      details: error instanceof Error ? error.message : undefined,
+    });
   }
 };

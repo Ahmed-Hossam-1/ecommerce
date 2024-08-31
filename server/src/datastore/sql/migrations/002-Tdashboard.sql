@@ -19,8 +19,8 @@ CREATE TABLE PRODUCTS (
     id               VARCHAR PRIMARY KEY,
     name             VARCHAR NOT NULL,
     description      VARCHAR NOT NULL,
-    price            VARCHAR NOT NULL,
-    quantity         VARCHAR NOT NULL,
+    price            INTEGER NOT NULL,
+    quantity         INTEGER NOT NULL,
     mainImage        VARCHAR NOT NULL,
     images           VARCHAR NOT NULL,
     categoryId       VARCHAR NOT NULL,
@@ -29,4 +29,5 @@ CREATE TABLE PRODUCTS (
     FOREIGN KEY (categoryId) REFERENCES CATEGORIES (categoryId),
     FOREIGN KEY (sellerId) REFERENCES USER (id)
 );
+
 

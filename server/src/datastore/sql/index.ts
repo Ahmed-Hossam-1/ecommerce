@@ -1,8 +1,9 @@
 import sqlite3 from 'sqlite3';
 import { DataStore } from '..';
 import { Database, open } from 'sqlite';
-import { Category, Product, SellerReq, User } from '../../types/typeDao';
+import { Address, Category, Product, SellerReq, User } from '../../types/typeDao';
 import path from 'path';
+import { Order, OrderItem } from '../dao/OrderDao';
 
 export class SqlDataStore implements DataStore {
   private db!: Database<sqlite3.Database, sqlite3.Statement>;
@@ -21,6 +22,66 @@ export class SqlDataStore implements DataStore {
 
     return this;
   }
+
+  // Order
+  async createOrder(order: Order): Promise<void> {
+    await this.db.run(
+      'INSERT INTO ORDERS (id,userId,totalAmount) VALUES (?,?,?)',
+      order.id,
+      order.userId,
+      order.totalAmount
+    );
+  }
+
+  getOrdersByUserId(userId: string): Promise<Order[]> {
+    return this.db.all('SELECT * FROM ORDERS WHERE userId=?', userId);
+  }
+
+  async createOrderItem(orderItem: OrderItem): Promise<void> {
+    await this.db.run(
+      'INSERT INTO ORDER_ITEMS (id,orderId,productId,quantity,price) VALUES (?,?,?,?,?)',
+      orderItem.id,
+      orderItem.orderId,
+      orderItem.productId,
+      orderItem.quantity,
+      orderItem.price
+    );
+  }
+
+  // Address
+  async createAddress(address: Address): Promise<void> {
+    await this.db.run(
+      'INSERT INTO ADDRESS (id,userId,street,city,state,country,phone) VALUES (?,?,?,?,?,?,?)',
+      address.id,
+      address.userId,
+      address.street,
+      address.city,
+      address.state,
+      address.country,
+      address.phone
+    );
+  }
+
+  getAddressById(id: string): Promise<Address | undefined> {
+    return this.db.get('SELECT * FROM ADDRESS WHERE id=?', id);
+  }
+
+  getAddressByUserId(userId: string): Promise<Address | undefined> {
+    return this.db.get('SELECT * FROM ADDRESS WHERE userId=?', userId);
+  }
+
+  async editAddress(address: Address): Promise<void> {
+    await this.db.run(
+      'UPDATE ADDRESS SET street=?,city=?,state=?,country=?,phone=? WHERE id=?',
+      address.street,
+      address.city,
+      address.state,
+      address.country,
+      address.phone,
+      address.id
+    );
+  }
+
   // Product
   async createProduct(product: Product): Promise<void> {
     await this.db.run(
@@ -60,6 +121,19 @@ export class SqlDataStore implements DataStore {
 
   async deleteProduct(productId: string): Promise<void> {
     await this.db.run('DELETE FROM PRODUCTS WHERE id=?', productId);
+  }
+
+  async searchProducts(searchTerm: string, categoryId: string): Promise<Product[]> {
+    const query = `
+      SELECT * FROM PRODUCTS 
+      WHERE name LIKE ? 
+      AND categoryId = ?
+    `;
+    return this.db.all(query, [`%${searchTerm}%`, categoryId]);
+  }
+
+  getProductsByCategory(categoryId: string): Promise<Product[]> {
+    return this.db.all('SELECT * FROM PRODUCTS WHERE categoryId=?', categoryId);
   }
 
   // Category
