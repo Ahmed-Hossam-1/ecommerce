@@ -14,7 +14,7 @@ interface signinArg {
 export const authSlice = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
-  tagTypes: ["Users"],
+  tagTypes: ["Auth"],
   endpoints: (builder) => ({
     signupUser: builder.mutation({
       query: ({ name, email, password }: signupArg) => ({
@@ -22,7 +22,7 @@ export const authSlice = createApi({
         method: "POST",
         body: { name, email, password },
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ["Auth"],
     }),
     signinUser: builder.mutation({
       query: ({ email, password }: signinArg) => ({
@@ -30,7 +30,7 @@ export const authSlice = createApi({
         method: "POST",
         body: { email, password },
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ["Auth"],
     }),
   }),
 });

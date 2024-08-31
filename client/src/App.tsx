@@ -21,25 +21,45 @@ import UsersPage from "./dashboard/pages/users/Users.page";
 import UseFormUser from "./dashboard/pages/users/UseFormUser";
 import Seller_req_page from "./dashboard/pages/seller/Seller_req.page";
 import UseFormProduct from "./dashboard/pages/products/UseFormProduct";
-import Reports_page from "./dashboard/pages/reports/Reports.page";
 import UseFormCategory from "./dashboard/pages/categories/UseFormCategory";
+import CartPage from "./web/pages/CartPage";
+import ProductDetails from "./web/pages/ProductDetails";
+import PaymentPage from "./web/pages/PaymentPage";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import ResultSearchPage from "./web/pages/ResultSearchPage";
 
 const App = () => {
+  const stripePromise = loadStripe(import.meta.env.VITE_SECRET_KEY);
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<Layout />}>
-        {/* Register Seller */}
-        <Route path="register_seller" element={<RegisterSeller />} />
-        {/* Home */}
-        <Route element={<AuthRoutingWeb />}>
-          <Route index element={<Home />}></Route>
+      <>
+        <Route path="/" element={<Layout />}>
+          {/* Register Seller */}
+          <Route path="register_seller" element={<RegisterSeller />} />
+          {/* Home */}
+          <Route element={<AuthRoutingWeb />}>
+            <Route index element={<Home />} />
+            <Route path="cart" element={<CartPage />} />
+            <Route path="product/:productId" element={<ProductDetails />} />
+            <Route path="results-search" element={<ResultSearchPage />} />
+            <Route
+              path="payment"
+              element={
+                <Elements stripe={stripePromise}>
+                  <PaymentPage />
+                </Elements>
+              }
+            />
+          </Route>
+          {/* Auth */}
+          <Route element={<RequierBack />}>
+            <Route path="signin" element={<Signup />} />
+            <Route path="signup" element={<Signup />} />
+          </Route>
         </Route>
-        {/* Auth */}
-        <Route element={<RequierBack />}>
-          <Route path="signin" element={<Signup />} />
-          <Route path="signup" element={<Signup />} />
-        </Route>
-        <Route element={<AuthRounting allowedRole={["admin", "seller"]} />}>
+
+        <Route element={<AuthRounting allowedRole="admin" />}>
           <Route path="admin_page" element={<DashboardLayout />}>
             <Route index element={<AdminPage />} />
             {/* users */}
@@ -77,13 +97,12 @@ const App = () => {
             </Route>
             {/* seller_req */}
             <Route path="seller_req" element={<Seller_req_page />} />
-            {/* reports */}
-            <Route path="reports" element={<Reports_page />} />
           </Route>
         </Route>
+
         {/* Not Found Page */}
         <Route path="*" element={<NotFoundPage />} />
-      </Route>
+      </>
     )
   );
   return <RouterProvider router={router} />;

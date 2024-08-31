@@ -1,29 +1,29 @@
-import { faBullhorn, faList, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBullhorn, faList, faUser } from "@fortawesome/free-solid-svg-icons";
 
 export const LinksSidebar = [
   {
-    title: 'Users',
+    title: "Users",
     icon: faUser,
-    link: 'users',
+    link: "users",
   },
   {
-    title: 'Seller Request',
+    title: "Seller Request",
     icon: faBullhorn,
-    link: 'seller_req',
+    link: "seller_req",
   },
   {
-    title: 'Categories',
+    title: "Categories",
     icon: faList,
-    link: 'categories',
+    link: "categories",
   },
   {
-    title: 'Products',
+    title: "Products",
     icon: faUser,
-    link: 'products',
+    link: "products",
   },
-  {
-    title: 'Reports',
-    icon: faUser,
-    link: 'reports',
-  },
+  // {
+  //   title: 'Reports',
+  //   icon: faUser,
+  //   link: 'reports',
+  // },
 ];

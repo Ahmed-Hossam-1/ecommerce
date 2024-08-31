@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "universal-cookie";
+import { Product } from "../../../types/type";
 
 export interface createProductRequest {
   name: string;
@@ -26,15 +27,23 @@ export interface createProductResponse {
 export const productSlice = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
-  tagTypes: ["product"],
+  tagTypes: ["Product"],
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       query: () => "/api/product",
-      providesTags: ["product"],
+      providesTags: ["Product"],
     }),
-    getProduct: builder.query({
-      query: (id) => `/api/product/${id}`,
-      providesTags: ["product"],
+    getProductsByCategory: builder.query<
+      { products: Product[] },
+      { productByCategoryId: string }
+    >({
+      query: ({ productByCategoryId }) =>
+        `/api/product/products/${productByCategoryId}`,
+      providesTags: ["Product"],
+    }),
+    getProduct: builder.query<{ product: Product }, { productId: string }>({
+      query: ({ productId }) => `/api/product/${productId}`,
+      providesTags: ["Product"],
     }),
     createProduct: builder.mutation<
       createProductResponse,
@@ -53,7 +62,7 @@ export const productSlice = createApi({
           body,
         };
       },
-      invalidatesTags: ["product"],
+      invalidatesTags: ["Product"],
     }),
 
     updateProduct: builder.mutation({
@@ -70,14 +79,26 @@ export const productSlice = createApi({
           body: data,
         };
       },
-      invalidatesTags: ["product"],
+      invalidatesTags: ["Product"],
     }),
+
     deleteProduct: builder.mutation({
       query: (id: string) => ({
         url: `/api/product/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["product"],
+      invalidatesTags: ["Product"],
+    }),
+
+    searchProducts: builder.mutation<
+      { products: createProductResponse[] },
+      { searchTerm: string; categoryId: string }
+    >({
+      query: ({ categoryId, searchTerm }) => ({
+        url: `/api/product/search?searchTerm=${searchTerm}&categoryId=${categoryId}`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Product"],
     }),
   }),
 });
@@ -88,4 +109,6 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
+  useSearchProductsMutation,
+  useGetProductsByCategoryQuery,
 } = productSlice;

@@ -2,14 +2,22 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useCurrentUserQuery } from "../features/users/api/userSlice";
 import Cookies from "universal-cookie";
+import PopupInfo from "./PopupInfo";
 
 const Profile = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isPopupOpen, setPopupOpen] = useState(false);
 
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
+
+  const togglePopup = () => {
+    setPopupOpen(!isPopupOpen);
+  };
+
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -27,15 +35,17 @@ const Profile = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   const cookie = new Cookies();
   const { pathname } = useLocation();
   const nav = useNavigate();
 
   const handleLogout = () => {
     cookie.remove("token");
-    cookie.remove("role");
     nav("/signin");
   };
+
+  const { data: currentUser } = useCurrentUserQuery();
 
   return (
     <div className="relative cursor-pointer" ref={dropdownRef}>
@@ -47,25 +57,29 @@ const Profile = () => {
       >
         <FontAwesomeIcon
           icon={faUser}
-          className="text-gray-700"
-          onClick={toggleDropdown}
+          className="text-gray-700 dark:text-gray-500"
+          onClick={() => {
+            toggleDropdown();
+          }}
         />
       </div>
 
       {isDropdownOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
-          <Link
-            to=""
+          <div
+            onClick={togglePopup}
             className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
           >
             Profile
-          </Link>
-          {cookie.get("role") == "admin" && (
+          </div>
+          {currentUser?.user?.role === "admin" && (
             <Link
-              to=""
+              to={pathname.startsWith("/admin_page") ? "/" : "/admin_page"}
               className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
             >
-              {pathname == "/admin_page" ? "Go WebSite" : "Go Dashboard"}
+              {pathname.startsWith("/admin_page")
+                ? "Go Website"
+                : "Go Dashboard"}
             </Link>
           )}
           <div
@@ -76,6 +90,9 @@ const Profile = () => {
           </div>
         </div>
       )}
+
+      {/* Popup Info */}
+      {isPopupOpen && <PopupInfo setPopupOpen={setPopupOpen} />}
     </div>
   );
 };

@@ -40,7 +40,7 @@ const Signup = () => {
         };
         const res = await signupUser(user);
         cookies.set("token", res.data.jwt);
-        cookies.set("role", res.data.role);
+        // cookies.set("role", res.data.role);
         if (res.data.role == "admin" || res.data.role == "seller")
           nav("/admin_page");
         else nav("/");
@@ -52,9 +52,8 @@ const Signup = () => {
         };
         const res = await signinUser(user);
         cookies.set("token", res.data.jwt);
-        cookies.set("role", res.data.role);
-        if (res.data.role == "admin" || res.data.role == "seller")
-          nav("/admin_page");
+        // cookies.set("role", res.data.role);
+        if (res.data.role == "admin") nav("/admin_page");
         else nav("/");
         reset();
       }

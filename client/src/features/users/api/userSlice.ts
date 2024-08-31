@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { User } from "../../../types/type";
+import Cookies from "universal-cookie";
 
 interface GetUserResponse {
   users: User[];
@@ -49,6 +50,20 @@ export const userSlice = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
+    currentUser: builder.query<User, void>({
+      query: () => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+        return {
+          url: "/api/user/currentuser",
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
+      invalidatesTags: ["Users"],
+    }),
   }),
 });
 
@@ -58,4 +73,5 @@ export const {
   useCreateUserMutation,
   useUpdateUserMutation,
   useDeleteUserMutation,
+  useCurrentUserQuery,
 } = userSlice;

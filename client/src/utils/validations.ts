@@ -69,3 +69,11 @@ export const sellerRequestSchema = z.object({
     .email({ message: "Not Vaild Email" }),
   password: z.string().min(6, { message: "password mast be at least 6 char" }),
 });
+
+export const addressSchema = z.object({
+  street: z.string().min(1, { message: "street is required" }),
+  city: z.string().min(1, { message: "city is required" }),
+  state: z.string().min(1, { message: "state is required" }),
+  country: z.string().min(1, { message: "country is required" }),
+  phone: z.string().min(1, { message: "phone is required" }),
+});

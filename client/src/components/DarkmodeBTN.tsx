@@ -1,4 +1,4 @@
-import { useDarkMode } from '../context/DarkMode';
+import { useDarkMode } from "../context/DarkMode";
 
 const DarkmodeBTN = () => {
   const { theme, toggleTheme } = useDarkMode();
@@ -8,11 +8,12 @@ const DarkmodeBTN = () => {
         onClick={toggleTheme}
         className="hidden"
         type="checkbox"
+        defaultChecked={true}
         id="darkmode-toggle"
-        checked={theme === 'dark'}
+        checked={theme === "dark"}
       />
       <label htmlFor="darkmode-toggle">
-        {theme === 'dark' ? (
+        {theme === "dark" ? (
           <div className="w-[32px] h-[32px] flex justify-center items-center rounded-full bg-[#d8860bbd] cursor-pointer">
             <img src="/images/Sun.svg" className="w-[20px]" alt="Sun" />
           </div>
