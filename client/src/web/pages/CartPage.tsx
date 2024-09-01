@@ -79,8 +79,8 @@ const CartPage = () => {
   return (
     <>
       <Header />
-      <div className="w-full flex justify-between items-start pt-[150px] pb-[65px] px-6 lg:px-24 bg-gray-100 dark:bg-gray-700">
-        <div className="w-[60%]">
+      <div className="w-full flex flex-col md:flex-row justify-between gap-y-8 items-start pt-[150px] pb-[65px] px-6 lg:px-24 bg-gray-100 dark:bg-gray-700">
+        <div className="w-full md:w-[60%]">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold text-gray-800 mb-8 dark:text-white">
               Shopping Cart
@@ -109,7 +109,7 @@ const CartPage = () => {
             )}
           </div>
         </div>
-        <div className="w-[35%] bg-gray-100 rounded-lg shadow-lg p-6 dark:text-white dark:bg-gray-700">
+        <div className="w-full md:w-[35%] bg-gray-100 rounded-lg shadow-lg p-6 dark:text-white dark:bg-gray-700">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4 dark:text-white">
             Order Summary
           </h2>
