@@ -59,29 +59,36 @@ const App = () => {
           </Route>
         </Route>
 
-        <Route element={<AuthRounting allowedRole="admin" />}>
+        <Route element={<AuthRounting allowedRole={["admin", "seller"]} />}>
           <Route path="admin_page" element={<DashboardLayout />}>
-            <Route index element={<AdminPage />} />
-            {/* users */}
-            <Route path="users" element={<Outlet />}>
-              <Route index element={<UsersPage />} />
-              <Route path="adduser" element={<UseFormUser isEdit={false} />} />
-              <Route
-                path="edite/:userId"
-                element={<UseFormUser isEdit={true} />}
-              />
-            </Route>
-            {/* categories */}
-            <Route path="categories" element={<Outlet />}>
-              <Route index element={<Categories_page />} />
-              <Route
-                path="addcategory"
-                element={<UseFormCategory isEdit={false} />}
-              />
-              <Route
-                path="edite/:categoryId"
-                element={<UseFormCategory isEdit={true} />}
-              />
+            <Route element={<AuthRounting allowedRole={["admin"]} />}>
+              <Route index element={<AdminPage />} />
+              {/* users */}
+              <Route path="users" element={<Outlet />}>
+                <Route index element={<UsersPage />} />
+                <Route
+                  path="adduser"
+                  element={<UseFormUser isEdit={false} />}
+                />
+                <Route
+                  path="edite/:userId"
+                  element={<UseFormUser isEdit={true} />}
+                />
+              </Route>
+              {/* categories */}
+              <Route path="categories" element={<Outlet />}>
+                <Route index element={<Categories_page />} />
+                <Route
+                  path="addcategory"
+                  element={<UseFormCategory isEdit={false} />}
+                />
+                <Route
+                  path="edite/:categoryId"
+                  element={<UseFormCategory isEdit={true} />}
+                />
+              </Route>
+              {/* seller_req */}
+              <Route path="seller_req" element={<Seller_req_page />} />
             </Route>
             {/* prodcut */}
             <Route path="products" element={<Outlet />}>
@@ -95,8 +102,6 @@ const App = () => {
                 element={<UseFormProduct isEdit={true} />}
               />
             </Route>
-            {/* seller_req */}
-            <Route path="seller_req" element={<Seller_req_page />} />
           </Route>
         </Route>
 

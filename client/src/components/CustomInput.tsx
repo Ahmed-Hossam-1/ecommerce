@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { FieldError, UseFormRegister } from 'react-hook-form';
+import { FC } from "react";
+import { FieldError, UseFormRegister } from "react-hook-form";
 
 interface InputProps {
   register: UseFormRegister<HTMLInputElement>;
@@ -10,11 +10,18 @@ interface InputProps {
   label: string;
 }
 
-const CustomInput: FC<InputProps> = ({ register, id, errors, type, placeholder, label }) => {
+const CustomInput: FC<InputProps> = ({
+  register,
+  id,
+  errors,
+  type,
+  placeholder,
+  label,
+}) => {
   return (
     <div className="flex flex-col justify-center items-start">
       <label
-        className="block capitalize text-gray-700 text-sm font-semibold mb-1 tracking-wide"
+        className="block dark:text-mainTextDark capitalize text-gray-700 text-sm font-semibold mb-1 tracking-wide"
         htmlFor={id}
       >
         {label}
@@ -26,7 +33,9 @@ const CustomInput: FC<InputProps> = ({ register, id, errors, type, placeholder, 
         placeholder={placeholder}
         {...register(id)}
       />
-      {errors[id] && <span className="text-red-500 text-xs mt-1"> {errors[id].message}</span>}
+      {errors[id] && (
+        <span className="text-red-500 text-xs mt-1"> {errors[id].message}</span>
+      )}
     </div>
   );
 };

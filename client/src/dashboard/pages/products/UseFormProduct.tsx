@@ -39,9 +39,12 @@ const UseFormProduct = ({ isEdit }: { isEdit: boolean }) => {
     data: singleProduct,
     isLoading,
     isError,
-  } = useGetProductQuery(productId, {
-    skip: !isEdit,
-  });
+  } = useGetProductQuery(
+    { productId },
+    {
+      skip: !isEdit,
+    }
+  );
 
   useEffect(() => {
     if (isEdit && singleProduct) {
@@ -89,18 +92,18 @@ const UseFormProduct = ({ isEdit }: { isEdit: boolean }) => {
         data,
       });
       res.data && nav("/admin_page/products");
-      toast.success("Product updated successfully");
+      res.data && toast.success("Product updated successfully");
     } else {
       const res = await createProduct(formData);
       res.data && nav("/admin_page/products");
-      toast.success("Product created successfully");
+      res.data && toast.success("Product created successfully");
     }
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-md p-8 rounded-lg space-y-6"
+      className="max-w-lg p-8 rounded-lg space-y-6"
     >
       <CustomDashInput
         id="name"
@@ -139,7 +142,10 @@ const UseFormProduct = ({ isEdit }: { isEdit: boolean }) => {
       />
 
       <div className="flex flex-col">
-        <label htmlFor="category" className="mb-2 font-semibold">
+        <label
+          htmlFor="category"
+          className="mb-2 font-semibold dark:text-mainTextDark"
+        >
           Category
         </label>
         <select

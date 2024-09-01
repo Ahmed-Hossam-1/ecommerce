@@ -15,7 +15,7 @@ export const userSlice = createApi({
       query: () => "/api/user",
       providesTags: ["Users"],
     }),
-    getUserById: builder.query<User, number>({
+    getUserById: builder.query<User, string>({
       query: (id) => `/api/user/${id}`,
     }),
     createUser: builder.mutation<User, User>({
@@ -31,7 +31,7 @@ export const userSlice = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
-    updateUser: builder.mutation<User, User>({
+    updateUser: builder.mutation<void, User>({
       query: (body) => ({
         url: `/api/user/${body.id}`,
         method: "PUT",
@@ -50,7 +50,7 @@ export const userSlice = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
-    currentUser: builder.query<User, void>({
+    currentUser: builder.query<{ user: User }, void>({
       query: () => {
         const cookies = new Cookies(null, { path: "/" });
         const token = cookies.get("token");
@@ -62,7 +62,7 @@ export const userSlice = createApi({
           },
         };
       },
-      invalidatesTags: ["Users"],
+      providesTags: ["Users"],
     }),
   }),
 });

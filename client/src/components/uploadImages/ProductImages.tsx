@@ -54,7 +54,9 @@ const ProductImages: React.FC<ProductImagesProps> = ({
           />
         </form>
         <div className="w-[315px] mx-auto">
-          <h2 className="pb-2">Upload Additional Images</h2>
+          <h2 className="pb-2 dark:text-mainTextDark">
+            Upload Additional Images
+          </h2>
           <div
             onClick={() => openImage.current?.click()}
             style={{

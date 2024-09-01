@@ -64,8 +64,8 @@ const Signup = () => {
 
   return (
     <div className="w-full h-[100vh] flex">
-      <div className="w-[40%] p-[30px] flex flex-col justify-center bg-white">
-        <h1 className="text-[30px] text-secondary font-bold text-center pb-3">
+      <div className="w-[40%] p-[30px] flex flex-col justify-center bg-mainBackground dark:bg-secbgDark800">
+        <h1 className="text-[30px] text-secondary font-bold text-center pb-3 dark:text-mainTextDark">
           {pathname === "/signup" ? "Sign Up" : "Sign in"}
         </h1>
         <form
@@ -109,7 +109,7 @@ const Signup = () => {
             />
           )}
           <button
-            className="w-[350px] bg-secondary p-2 rounded-md mt-3"
+            className="w-[350px] bg-secondary dark:text-mainTextDark hover:bg-primary p-2 rounded-md mt-3"
             disabled={isSubmitting}
             type="submit"
           >
@@ -117,7 +117,7 @@ const Signup = () => {
           </button>
         </form>
         <div className="flex flex-col mt-5 text-center gap-2">
-          <p>
+          <p className="dark:text-mainTextDark">
             {pathname === "/signup"
               ? "Already have an account?"
               : "Don’t have an account?"}{" "}

@@ -18,25 +18,23 @@ const PopupInfo = ({
 
   const toggleOpenViewOrder = () => {
     if (isEditing) {
-      setIsEditing(false); // Close the edit form if it's open
+      setIsEditing(false);
     } else {
-      setIsOpen(!isOpen); // Toggle order history visibility
+      setIsOpen(!isOpen);
     }
   };
 
   const handleEditProfile = () => {
     if (isOpen) {
-      setIsOpen(false); // Close order history if it's open
+      setIsOpen(false);
     }
-    setIsEditing(true); // Open the edit profile form
+    setIsEditing(true);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // Add your submit logic here, such as sending data to the backend
-    // For now, just logging the form data
     console.log("Profile updated");
-    setIsEditing(false); // Close the edit profile form after submission
+    setIsEditing(false);
   };
 
   const orders = [
@@ -52,18 +50,23 @@ const PopupInfo = ({
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-20">
-      <div className="bg-white w-11/12 md:w-1/2 h-auto max-h-[80vh] overflow-y-auto shadow-lg rounded-lg p-6 border border-gray-200 relative">
+      <div className="bg-mainBackground w-11/12 md:w-1/2 h-auto max-h-[80vh] overflow-y-auto shadow-lg rounded-lg p-6 border border-gray-200 relative dark:bg-thirdbgDark700">
         <button
           onClick={() => setPopupOpen(false)}
-          className="absolute top-2 right-2 text-gray-700 hover:text-gray-900 transition"
+          className="absolute top-2 right-3"
         >
-          <FontAwesomeIcon icon={faTimes} />
+          <FontAwesomeIcon
+            className="dark:text-white text-gray-700"
+            icon={faTimes}
+          />
         </button>
         {!isEditing ? (
           <div>
-            <h2 className="text-2xl font-semibold mb-2">{user.name}</h2>
-            <p className="text-gray-700">{user.email}</p>
-            <p className="text-gray-700">{user.address}</p>
+            <h2 className="text-2xl font-semibold mb-2 dark:text-white">
+              {user.name}
+            </h2>
+            <p className="text-gray-700 dark:text-white">{user.email}</p>
+            <p className="text-gray-700 dark:text-white">{user.address}</p>
             <div className="mt-4">
               <button
                 onClick={handleEditProfile}
@@ -81,9 +84,14 @@ const PopupInfo = ({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="mt-6">
-            <h2 className="text-2xl font-semibold mb-4">Edit Profile</h2>
+            <h2 className="text-2xl font-semibold mb-4 dark:text-white">
+              Edit Profile
+            </h2>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2" htmlFor="name">
+              <label
+                className="block text-gray-700 mb-2 dark:text-white"
+                htmlFor="name"
+              >
                 Name
               </label>
               <input
@@ -94,7 +102,10 @@ const PopupInfo = ({
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2" htmlFor="email">
+              <label
+                className="block text-gray-700 mb-2 dark:text-white"
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
@@ -105,7 +116,10 @@ const PopupInfo = ({
               />
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2" htmlFor="address">
+              <label
+                className="block text-gray-700 mb-2 dark:text-white"
+                htmlFor="address"
+              >
                 Address
               </label>
               <input
@@ -133,23 +147,29 @@ const PopupInfo = ({
           </form>
         )}
         {isOpen && !isEditing && (
-          <div className="mt-6 h-[300px] overflow-y-auto bg-white shadow-lg rounded-lg border border-gray-200 p-4">
-            <h2 className="text-2xl font-semibold mb-4">Order History</h2>
+          <div className="mt-6 h-[300px] overflow-y-auto bg-white shadow-lg rounded-lg border border-gray-200 p-4 dark:bg-thirdbgDark700">
+            <h2 className="text-2xl font-semibold mb-4 dark:text-white">
+              Order History
+            </h2>
             <table className="w-full border-collapse">
-              <thead className="bg-gray-100">
+              <thead className="bg-gray-100 dark:bg-secbgDark800 ">
                 <tr>
-                  <th className="px-4 py-2 text-left text-gray-600">
+                  <th className="px-4 py-2 text-left text-gray-600 dark:text-mainTextDark ">
                     Order ID
                   </th>
-                  <th className="px-4 py-2 text-left text-gray-600">Date</th>
-                  <th className="px-4 py-2 text-left text-gray-600">Total</th>
+                  <th className="px-4 py-2 text-left text-gray-600 dark:text-mainTextDark">
+                    Date
+                  </th>
+                  <th className="px-4 py-2 text-left text-gray-600 dark:text-mainTextDark">
+                    Total
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((order) => (
                   <tr
                     key={order.id}
-                    className="border-b hover:bg-gray-50 transition"
+                    className="border-b hover:bg-gray-50 transition hover:dark:bg-secbgDark800 dark:text-mainTextDark"
                   >
                     <td className="px-4 py-2">{order.id}</td>
                     <td className="px-4 py-2">{order.date}</td>

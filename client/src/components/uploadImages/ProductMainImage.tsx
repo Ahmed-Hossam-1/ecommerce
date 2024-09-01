@@ -30,7 +30,7 @@ const ProductMainImage: React.FC<ProductMainImageProps> = ({
         <input ref={openImg} hidden onChange={handleImgChange} type="file" />
       </form>
       <div className="w-[315px] mx-auto">
-        <h2 className="pb-2">{labelImg}</h2>
+        <h2 className="pb-2 dark:text-mainTextDark">{labelImg}</h2>
         <div
           onClick={() => openImg.current?.click()}
           style={{

@@ -8,9 +8,8 @@ const DarkmodeBTN = () => {
         onClick={toggleTheme}
         className="hidden"
         type="checkbox"
-        defaultChecked={true}
+        defaultChecked={theme === "dark"}
         id="darkmode-toggle"
-        checked={theme === "dark"}
       />
       <label htmlFor="darkmode-toggle">
         {theme === "dark" ? (

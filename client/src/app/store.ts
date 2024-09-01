@@ -8,6 +8,7 @@ import cartReducer from "../features/cart/cartSlice";
 import { paymentSlice } from "../features/payment/api/paymentSlice";
 import { addressSlice } from "../features/address/api/addressSlice";
 import { orderSlice } from "../features/order/api/orderSlice";
+import { reviewSlice } from "../features/reviews/api/reviewSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     [paymentSlice.reducerPath]: paymentSlice.reducer,
     [addressSlice.reducerPath]: addressSlice.reducer,
     [orderSlice.reducerPath]: orderSlice.reducer,
+    [reviewSlice.reducerPath]: reviewSlice.reducer,
     cart: cartReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -30,7 +32,8 @@ export const store = configureStore({
       productSlice.middleware,
       paymentSlice.middleware,
       orderSlice.middleware,
-      addressSlice.middleware
+      addressSlice.middleware,
+      reviewSlice.middleware
     ),
 });
 

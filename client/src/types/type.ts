@@ -25,5 +25,6 @@ export interface Product {
   quantity: number;
   mainImage?: string;
   images?: string;
-  categoryId: string;
+  categoryId?: string;
+  sellerId?: string;
 }

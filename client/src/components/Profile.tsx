@@ -52,12 +52,12 @@ const Profile = () => {
       <div
         className={`${
           isDropdownOpen &&
-          "bg-slate-300 w-7 h-7 flex justify-center items-center rounded-full"
+          "border w-7 h-7 flex justify-center items-center rounded-full"
         } `}
       >
         <FontAwesomeIcon
           icon={faUser}
-          className="text-gray-700 dark:text-gray-500"
+          className="text-gray-700 dark:text-gray-300"
           onClick={() => {
             toggleDropdown();
           }}
@@ -65,17 +65,18 @@ const Profile = () => {
       </div>
 
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10 dark:bg-gray-700 ">
           <div
             onClick={togglePopup}
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
           >
             Profile
           </div>
-          {currentUser?.user?.role === "admin" && (
+          {(currentUser?.user?.role === "admin" ||
+            currentUser?.user?.role === "seller") && (
             <Link
               to={pathname.startsWith("/admin_page") ? "/" : "/admin_page"}
-              className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+              className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
             >
               {pathname.startsWith("/admin_page")
                 ? "Go Website"
@@ -84,7 +85,7 @@ const Profile = () => {
           )}
           <div
             onClick={handleLogout}
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
           >
             Logout
           </div>

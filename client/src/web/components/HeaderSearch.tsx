@@ -122,13 +122,13 @@ const HeaderSearch = () => {
         {suggestions.length > 0 && (
           <div
             ref={suggestionsRef}
-            className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg"
+            className="absolute z-10 w-full mt-1 bg-white  shadow-lg"
           >
             {suggestions.map((product) => (
               <Link
                 to={`/product/${product.id}`}
                 key={product.id}
-                className="block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none text-left"
+                className="block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none text-left dark:text-white dark:hover:bg-gray-800 dark:bg-gray-700"
               >
                 {product.name}
               </Link>

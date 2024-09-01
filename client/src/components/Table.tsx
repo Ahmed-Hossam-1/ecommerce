@@ -34,13 +34,13 @@ const Table: React.FC<TableProps> = ({
             {columns.map((col) => (
               <th
                 key={col.key}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-mainbgDark900 dark:text-mainTextDark"
               >
                 {col.title}
               </th>
             ))}
 
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:bg-mainbgDark900 dark:text-mainTextDark">
               Actions
             </th>
           </tr>
@@ -51,7 +51,7 @@ const Table: React.FC<TableProps> = ({
               {columns.map((col) => (
                 <td
                   key={col.key}
-                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-500  dark:text-mainTextDark"
                 >
                   {item[col.key]}
                 </td>
@@ -67,7 +67,7 @@ const Table: React.FC<TableProps> = ({
                 </td>
               ) : (
                 <>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 ">
                     {pathname !== "/admin_page/seller_req" && (
                       <Link
                         to={

@@ -4,6 +4,10 @@
 
 tbody tr:hover {
   @apply bg-gray-100;
+  @apply dark:bg-secbgDark800;
+}
+tbody tr {
+  @apply dark:bg-thirdbgDark700;
 }
 body {
   font-family: "Cairo", sans-serif;

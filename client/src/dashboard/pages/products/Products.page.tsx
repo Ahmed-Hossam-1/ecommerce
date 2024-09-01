@@ -1,13 +1,16 @@
 import {
   useGetAllProductsQuery,
   useDeleteProductMutation,
+  useGetProductsBySellerQuery,
 } from "../../../features/product/api/productSlice";
 import { Link } from "react-router-dom";
 import Table from "../../../components/Table";
 import { Column } from "../../../types/type";
 import { toast } from "react-toastify";
+import { useCurrentUserQuery } from "../../../features/users/api/userSlice";
 
 const Products_page = () => {
+  const { data: currentUser } = useCurrentUserQuery();
   const columns: Column[] = [
     { key: "id", title: "ID" },
     { key: "name", title: "Name" },
@@ -16,6 +19,13 @@ const Products_page = () => {
     { key: "price", title: "Price" },
   ];
   const { data: products, isLoading, isError } = useGetAllProductsQuery();
+  const {
+    data: productsBySeller,
+    isLoading: isLoadingBySeller,
+    isError: isErrorBySeller,
+  } = useGetProductsBySellerQuery();
+
+  console.log("productsBySeller", productsBySeller);
   const [deleteProduct] = useDeleteProductMutation();
 
   const handleDelete = async (id: string) => {
@@ -33,16 +43,29 @@ const Products_page = () => {
           Add Product
         </Link>
       </div>
-      <div className="p-4">
-        <Table
-          columns={columns}
-          data={products?.products ?? []}
-          onEdit={(id: string) => `edit/${id}`}
-          onDelete={handleDelete}
-          isLoading={isLoading}
-          isErorr={isError}
-        />
-      </div>
+      {currentUser?.user?.role === "seller" ? (
+        <div className="p-4">
+          <Table
+            columns={columns}
+            data={productsBySeller?.products ?? []}
+            onEdit={(id: string) => `edit/${id}`}
+            onDelete={handleDelete}
+            isLoading={isLoadingBySeller}
+            isErorr={isErrorBySeller}
+          />
+        </div>
+      ) : (
+        <div className="p-4">
+          <Table
+            columns={columns}
+            data={products?.products ?? []}
+            onEdit={(id: string) => `edit/${id}`}
+            onDelete={handleDelete}
+            isLoading={isLoading}
+            isErorr={isError}
+          />
+        </div>
+      )}
     </>
   );
 };

@@ -12,7 +12,7 @@ const Header = () => {
     <header className="fixed w-full z-50 bg-white dark:bg-gray-800 shadow-md p-4 flex justify-between items-center transition-all duration-300">
       {/* Logo */}
       <Link to="/">
-        <img className="w-36 h-auto" src="/images/header-logo.png" alt="logo" />
+        <img className="w-28 h-auto" src="/images/logo1.png" alt="logo" />
       </Link>
 
       {/* Search */}

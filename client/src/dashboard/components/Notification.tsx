@@ -44,16 +44,17 @@ const Notification = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
   return (
     <div className="relative cursor-pointer" ref={dropdownRef}>
       <div
         className={`${
           isMenuOpen &&
-          "bg-slate-300 w-7 h-7 flex justify-center items-center rounded-full"
+          "border w-7 h-7 flex justify-center items-center rounded-full"
         } `}
       >
         <FontAwesomeIcon
-          className="text-gray-700"
+          className="text-gray-700 dark:text-gray-300"
           icon={faBell}
           onClick={handleBellClick}
         />

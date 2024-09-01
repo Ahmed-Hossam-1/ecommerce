@@ -4,11 +4,14 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAppDispatch, useAppSelector } from "../../hooks/storeHooks";
 import CartCard from "../components/CartCard";
-import { removeFromCart } from "../../features/cart/cartSlice";
+import { clearCart, removeFromCart } from "../../features/cart/cartSlice";
 import { useCreatePaymentMutation } from "../../features/payment/api/paymentSlice";
 import { totalAmount } from "../../features/cart/cartSlice";
 import { useCreateOrderMutation } from "../../features/order/api/orderSlice";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useGetAddressByUserIdQuery } from "../../features/address/api/addressSlice";
+import { useCurrentUserQuery } from "../../features/users/api/userSlice";
 
 const PaymentPage = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
@@ -17,11 +20,12 @@ const PaymentPage = () => {
   const elements = useElements();
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const nav = useNavigate();
 
   const [createPayment] = useCreatePaymentMutation();
   const [createOrder] = useCreateOrderMutation();
 
-  const handleRemoveFromCart = (id: number) => {
+  const handleRemoveFromCart = (id: string) => {
     dispatch(removeFromCart(id));
   };
 
@@ -44,7 +48,7 @@ const PaymentPage = () => {
     }
 
     const items = cartItems.map((item) => ({
-      productId: "4d74ecc8-fb6c-4dba-adf9-d803f2e1ea85",
+      productId: item.id,
       quantity: +item.quantity,
       price: +item.price,
     }));
@@ -75,11 +79,13 @@ const PaymentPage = () => {
         toast.success("Payment successful!");
         setError(null);
 
-        const res = await createOrder({
+        await createOrder({
           totalAmount: +totalAmount(cartItems),
           items,
         });
-        console.log("Order created", res);
+
+        dispatch(clearCart());
+        nav("/");
       }
     } catch (err) {
       setError("An unexpected error occurred.");
@@ -88,49 +94,59 @@ const PaymentPage = () => {
       setIsProcessing(false);
     }
   };
-
+  const { data: addressData } = useGetAddressByUserIdQuery(undefined);
+  const { data: userData } = useCurrentUserQuery(undefined);
+  console.log(userData);
   return (
     <>
       <Header />
-      <div className="w-full container pt-32 pb-10">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Payment Page</h1>
-        {/* Review address */}
-        <div className="flex items-start gap-2 text-xl font-semibold text-gray-800">
-          <div>Delivery Address:</div>
-          <div className="text-[#777] text-sm mt-1">
-            <h3>ahmed@gmail.com</h3>
-            <h4>Fake City, Fake Country</h4>
+      <section className="w-full dark:bg-gray-700 bg-gray-100">
+        <div className=" container pt-32 pb-10">
+          <h1 className="text-3xl font-bold text-gray-800 mb-8 dark:text-white">
+            Payment Page
+          </h1>
+          {/* Review address */}
+          <div className="flex items-start gap-2 text-xl font-semibold text-gray-800">
+            <div className="dark:text-white">Delivery Address:</div>
+            <div className="text-[#777] text-sm mt-1">
+              <h3 className="dark:text-[#d7d6d6]">{userData?.user?.email}</h3>
+              <h4 className="dark:text-[#d7d6d6]">
+                {addressData?.address?.city}, {addressData?.address?.country}
+              </h4>
+            </div>
+          </div>
+          <hr className="my-10" />
+          {/* Review product */}
+          <div className="flex gap-5 flex-wrap justify-start">
+            {cartItems.map((item) => (
+              <CartCard
+                key={item.id}
+                item={item}
+                handleRemoveFromCart={handleRemoveFromCart}
+              />
+            ))}
+          </div>
+          <hr className="my-10" />
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-8 dark:text-white">
+              Payment Method
+            </h2>
+            <form onSubmit={handleSubmit}>
+              <CardElement onChange={() => setError(null)} />
+              {error && <div className="text-red-500 mt-2">{error}</div>}
+              <span className="dark:text-white">
+                Total: {totalAmount(cartItems).toFixed(2)}$
+              </span>
+              <button
+                className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg mt-4"
+                disabled={isProcessing}
+              >
+                {isProcessing ? "Processing..." : "Pay Now"}
+              </button>
+            </form>
           </div>
         </div>
-        <hr className="my-10" />
-        {/* Review product */}
-        <div className="flex gap-5 flex-wrap justify-start">
-          {cartItems.map((item) => (
-            <CartCard
-              key={item.id}
-              item={item}
-              handleRemoveFromCart={handleRemoveFromCart}
-            />
-          ))}
-        </div>
-        <hr className="my-10" />
-        <div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-8">
-            Payment Method
-          </h2>
-          <form onSubmit={handleSubmit}>
-            <CardElement onChange={() => setError(null)} />
-            {error && <div className="text-red-500 mt-2">{error}</div>}
-            <span>Total: {totalAmount(cartItems).toFixed(2)}$</span>
-            <button
-              className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg mt-4"
-              disabled={isProcessing}
-            >
-              {isProcessing ? "Processing..." : "Pay Now"}
-            </button>
-          </form>
-        </div>
-      </div>
+      </section>
       <Footer />
     </>
   );

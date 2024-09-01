@@ -1,35 +1,20 @@
+import {
+  useGetTopSellerProductsQuery,
+  useGetTopRatedProductsQuery,
+} from "../../features/product/api/productSlice";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Landing from "../components/Landing";
+import Offers from "../components/Offers";
 import ProductCard from "../components/ProductCard";
+import Statistics from "../components/Statistics";
 
 const Home = () => {
-  const products = [
-    {
-      id: 1,
-      name: "Product 1",
-      price: 100,
-      mainImage: "product1.jpg",
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      price: 200,
-      mainImage: "product2.jpg",
-    },
-    {
-      id: 3,
-      name: "Product 3",
-      price: 300,
-      mainImage: "product3.jpg",
-    },
-    {
-      id: 4,
-      name: "Product 4",
-      price: 400,
-      mainImage: "product4.jpg",
-    },
-  ];
+  const { data: topSellerData } = useGetTopSellerProductsQuery(undefined);
+  console.log(topSellerData);
+
+  const { data: topRatedData } = useGetTopRatedProductsQuery(undefined);
+  console.log(topRatedData);
 
   return (
     <>
@@ -37,13 +22,49 @@ const Home = () => {
       <div className="pt-[84.5px]">
         <Landing />
       </div>
-      <div className="py-10">
-        <h1 className="text-4xl font-bold text-center my-8">Category 1</h1>
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+      <div className="py-24 bg-slate-100 dark:bg-gray-800">
+        <h1 className="text-2xl md:text-4xl font-bold text-center pb-10 dark:text-white">
+          Top Selling Products
+        </h1>
+
+        {topSellerData && <ProductCard products={topSellerData.products} />}
+      </div>
+      <div className="py-24 bg-slate-100 dark:bg-gray-800">
+        <Offers />
+      </div>
+      {/* send email */}
+      <div className="relative">
+        <div className="absolute left-0 top-0 w-full h-full bg-[rgba(0,0,0,0.6)]"></div>
+        <div className="absolute left-0 top-0 w-full h-full flex flex-col justify-center items-center gap-y-4 text-white">
+          <h1 className="text-2xl md:text-4xl font-bold">
+            Get Notified About New Products
+          </h1>
+          <input
+            className="w-[80%] md:w-[40%] p-2 text-black"
+            type="text"
+            placeholder="Enter your email"
+          />
+        </div>
+        <img
+          src="/images/sendmail.jpg"
+          className="w-full h-[200px]"
+          alt="sendmail.jpg"
+        />
       </div>
 
+      <div className="py-24 bg-slate-100 dark:bg-gray-800">
+        <h1 className="text-2xl md:text-4xl font-bold text-center pb-10 dark:text-white">
+          Top Rating Products
+        </h1>
+
+        {topRatedData && <ProductCard products={topRatedData.products} />}
+      </div>
+      <div className="pb-24 bg-slate-100 dark:bg-gray-800">
+        <h1 className="text-center text-2xl md:text-4xl font-bold mb-8 text-gray-800 dark:text-gray-200">
+          Statistics
+        </h1>
+        <Statistics />
+      </div>
       <div>
         <Footer />
       </div>

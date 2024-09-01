@@ -79,13 +79,12 @@ const CartPage = () => {
   return (
     <>
       <Header />
-      <div className="w-full flex justify-between items-start pt-[150px] pb-[65px] px-6 lg:px-24">
+      <div className="w-full flex justify-between items-start pt-[150px] pb-[65px] px-6 lg:px-24 bg-gray-100 dark:bg-gray-700">
         <div className="w-[60%]">
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">
+            <h1 className="text-3xl font-bold text-gray-800 mb-8 dark:text-white">
               Shopping Cart
             </h1>
-
             {cartItems.length > 0 && (
               <button
                 onClick={handleClearCart}
@@ -110,18 +109,18 @@ const CartPage = () => {
             )}
           </div>
         </div>
-        <div className="w-[35%] bg-gray-100 rounded-lg shadow-lg p-6">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        <div className="w-[35%] bg-gray-100 rounded-lg shadow-lg p-6 dark:text-white dark:bg-gray-700">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4 dark:text-white">
             Order Summary
           </h2>
-          <span className="text-lg text-gray-800 mb-6">
+          <span className="text-lg text-gray-800 mb-6 dark:text-white">
             Total: {totalAmount(cartItems).toFixed(2)}$
           </span>
           {/* Adress */}
           {addressData?.address ? (
             isOpen ? (
-              <div className="w-full">
-                <h2 className="text-xl font-semibold text-gray-800 mb-1">
+              <div className="w-full dark:text-white">
+                <h2 className="text-xl font-semibold text-gray-800 mb-1 dark:text-white">
                   Add your address:
                 </h2>
                 <form
@@ -191,16 +190,18 @@ const CartPage = () => {
               </div>
             ) : (
               <>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between ">
                   <div>
-                    <h2 className="text-xl font-semibold text-gray-800 mb-1">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-1 dark:text-white">
                       Your Address:
                     </h2>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 dark:text-gray-200">
                       {addressData.address.street}, {addressData.address.city},{" "}
                       {addressData.address.state}, {addressData.address.country}
                     </p>
-                    <p className="text-gray-600">{addressData.address.phone}</p>
+                    <p className="text-gray-600 dark:text-gray-200">
+                      {addressData.address.phone}
+                    </p>
                   </div>
                   {/* edit */}
                   <button
@@ -223,7 +224,7 @@ const CartPage = () => {
             )
           ) : (
             <div className="w-full">
-              <h2 className="text-xl font-semibold text-gray-800 mb-1">
+              <h2 className="text-xl font-semibold text-gray-800 mb-1 dark:text-white">
                 Add your address:
               </h2>
               <form

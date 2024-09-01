@@ -30,7 +30,7 @@ export const productSlice = createApi({
   tagTypes: ["Product"],
   endpoints: (builder) => ({
     getAllProducts: builder.query({
-      query: () => "/api/product",
+      query: () => "/api/product/all",
       providesTags: ["Product"],
     }),
     getProductsByCategory: builder.query<
@@ -42,7 +42,7 @@ export const productSlice = createApi({
       providesTags: ["Product"],
     }),
     getProduct: builder.query<{ product: Product }, { productId: string }>({
-      query: ({ productId }) => `/api/product/${productId}`,
+      query: ({ productId }) => `/api/product/single/${productId}`,
       providesTags: ["Product"],
     }),
     createProduct: builder.mutation<
@@ -54,7 +54,7 @@ export const productSlice = createApi({
         const token = cookies.get("token");
 
         return {
-          url: "/api/product",
+          url: "/api/product/create",
           method: "POST",
           headers: {
             authorization: `Bearer ${token}`,
@@ -100,6 +100,40 @@ export const productSlice = createApi({
       }),
       invalidatesTags: ["Product"],
     }),
+
+    getTopSellerProducts: builder.query<{ products: Product[] }, void>({
+      query: () => {
+        return {
+          url: "/api/product/top-product/top-selling?limit=10",
+          method: "GET",
+        };
+      },
+      providesTags: ["Product"],
+    }),
+
+    getTopRatedProducts: builder.query({
+      query: () => {
+        return {
+          url: "/api/product/top-product/top-rated?limit=10",
+          method: "GET",
+        };
+      },
+      providesTags: ["Product"],
+    }),
+    getProductsBySeller: builder.query({
+      query: () => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+        return {
+          url: "/api/product/get-by-sellerId",
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
+      providesTags: ["Product"],
+    }),
   }),
 });
 
@@ -111,4 +145,7 @@ export const {
   useDeleteProductMutation,
   useSearchProductsMutation,
   useGetProductsByCategoryQuery,
+  useGetTopSellerProductsQuery,
+  useGetTopRatedProductsQuery,
+  useGetProductsBySellerQuery,
 } = productSlice;
