@@ -107,6 +107,7 @@ export const getProductById: ExpressHandlerWithParams<
   { product: Product }
 > = async (req, res) => {
   const { productId } = req.params;
+  console.log('productId', productId);
   if (!productId) {
     return res.status(400).json({ error: 'Bad Request', message: 'Product ID is required' });
   }
@@ -122,7 +123,6 @@ export const searchProducts: ExpressHandler<
   { products: Product[] }
 > = async (req, res) => {
   const { searchTerm, categoryId } = req.query;
-  console.log({ searchTerm, categoryId });
 
   if (!searchTerm || !categoryId) {
     return res
@@ -147,5 +147,40 @@ export const getProductsByCategory: ExpressHandlerWithParams<
   if (!products) {
     return res.status(404).json({ error: 'Not Found', message: 'Products not found' });
   }
+  res.json({ products });
+};
+
+export const getTopSellingProducts: ExpressHandler<
+  { limit: string },
+  { products: Product[] }
+> = async (req, res) => {
+  const { limit } = req.query;
+  if (!limit) {
+    return res.status(400).json({ error: 'Bad Request', message: 'Limit is required' });
+  }
+  const products = await db.getTopSellingProducts(parseInt(limit));
+  res.json({ products });
+};
+
+export const getTopRatedProducts: ExpressHandler<
+  { limit: string },
+  { products: Product[] }
+> = async (req, res) => {
+  const { limit } = req.query;
+  if (!limit) {
+    return res.status(400).json({ error: 'Bad Request', message: 'Limit is required' });
+  }
+  const products = await db.getTopRatedProducts(parseInt(limit));
+  res.json({ products });
+};
+
+export const getProductsBySeller: ExpressHandler<{}, { products: Product[] }> = async (_, res) => {
+  const sellerId = res.locals.userId;
+  if (!sellerId) {
+    return res
+      .status(401)
+      .json({ error: 'Unauthorized', message: 'You are not authorized to create a product' });
+  }
+  const products = await db.getProductsBySeller(sellerId);
   res.json({ products });
 };

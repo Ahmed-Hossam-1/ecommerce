@@ -4,6 +4,7 @@ import { Database, open } from 'sqlite';
 import { Address, Category, Product, SellerReq, User } from '../../types/typeDao';
 import path from 'path';
 import { Order, OrderItem } from '../dao/OrderDao';
+import { Review } from '../dao/ReviewsDao';
 
 export class SqlDataStore implements DataStore {
   private db!: Database<sqlite3.Database, sqlite3.Statement>;
@@ -21,6 +22,26 @@ export class SqlDataStore implements DataStore {
     });
 
     return this;
+  }
+
+  // Reviews
+  async createReview(review: Review): Promise<void> {
+    await this.db.run(
+      'INSERT INTO REVIEWS (id,productId,userId,rating,review) VALUES (?,?,?,?,?)',
+      review.id,
+      review.productId,
+      review.userId,
+      review.rating,
+      review.review
+    );
+  }
+
+  getReviewsByProductId(productId: string): Promise<Review[]> {
+    return this.db.all('SELECT * FROM REVIEWS WHERE productId=?', productId);
+  }
+
+  getReviewsByUserId(userId: string, productId: string): Promise<Review | undefined> {
+    return this.db.get('SELECT * FROM REVIEWS WHERE userId=? AND productId=?', userId, productId);
   }
 
   // Order
@@ -134,6 +155,34 @@ export class SqlDataStore implements DataStore {
 
   getProductsByCategory(categoryId: string): Promise<Product[]> {
     return this.db.all('SELECT * FROM PRODUCTS WHERE categoryId=?', categoryId);
+  }
+
+  getTopSellingProducts(limit: number): Promise<Product[]> {
+    const query = `
+    SELECT p.*, SUM(oi.quantity) as totalSold
+    FROM PRODUCTS p
+    JOIN ORDER_ITEMS oi ON p.id = oi.productId
+    GROUP BY p.id
+    ORDER BY totalSold DESC
+    LIMIT ?
+  `;
+    return this.db.all(query, limit);
+  }
+
+  async getTopRatedProducts(limit: number): Promise<Product[]> {
+    const query = `
+      SELECT p.*, AVG(r.rating) as averageRating
+      FROM PRODUCTS p
+      JOIN REVIEWS r ON p.id = r.productId
+      GROUP BY p.id
+      ORDER BY averageRating DESC
+      LIMIT ?
+    `;
+    return this.db.all(query, limit);
+  }
+
+  getProductsBySeller(sellerId: string): Promise<Product[]> {
+    return this.db.all('SELECT * FROM PRODUCTS WHERE sellerId=?', sellerId);
   }
 
   // Category

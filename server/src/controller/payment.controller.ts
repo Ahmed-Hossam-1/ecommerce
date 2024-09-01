@@ -17,7 +17,6 @@ export const createPayment: ExpressHandler<
     if (!amount) {
       res.status(400).send({ error: 'Amount is required.' });
     }
-    console.log(amount);
 
     if (!amount || typeof amount !== 'number' || amount <= 0) {
       return res.status(400).send({ error: 'Valid amount is required.' });

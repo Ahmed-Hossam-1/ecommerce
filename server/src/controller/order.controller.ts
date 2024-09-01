@@ -19,14 +19,12 @@ export const createOrder: ExpressHandler<OrderItemRequest, {}> = async (req, res
       .status(401)
       .json({ error: 'Unauthorized', message: 'You are not authorized to create a product' });
   }
-  console.log({ items, totalAmount });
 
   const order: Order = {
     id: crypto.randomUUID(),
     userId,
     totalAmount,
   };
-  console.log(order);
 
   await db.createOrder(order);
 
@@ -38,7 +36,6 @@ export const createOrder: ExpressHandler<OrderItemRequest, {}> = async (req, res
       quantity: item.quantity,
       price: item.price,
     };
-    console.log(orderItem);
     await db.createOrderItem(orderItem);
   }
 

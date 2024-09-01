@@ -14,6 +14,7 @@ import { paymentRouter } from './src/routes/payment.route';
 import path from 'path';
 import { addressRouter } from './src/routes/address.route';
 import { orderRouter } from './src/routes/order.route';
+import { routerReviews } from './src/routes/reviews.route';
 
 // Load environment variables
 dotenv.config();
@@ -41,6 +42,7 @@ dotenv.config();
   app.use('/api/payment', paymentRouter);
   app.use('/api/address', addressRouter);
   app.use('/api/order', orderRouter);
+  app.use('/api/reviews', routerReviews);
 
   // Error handling middleware
   app.use(errHandler);
