@@ -1,16 +1,4 @@
-export interface Order {
-  id: string;
-  userId: string;
-  totalAmount: number;
-}
-
-export interface OrderItem {
-  id: string;
-  orderId: string;
-  productId: string;
-  quantity: number;
-  price: number;
-}
+import { Order, OrderItem } from '../../types/typeDao';
 
 export interface OrderDao {
   createOrder(order: Order): Promise<void>;

@@ -1,16 +1,9 @@
-import { ExpressHandler, ExpressHandlerWithParams } from '../types/typeDao';
-import { Review } from '../datastore/dao/ReviewsDao';
+import { ExpressHandler, ExpressHandlerWithParams, Review } from '../types/typeDao';
 import { db } from '../datastore';
 import crypto from 'crypto';
+import { createReviewRequest } from '../types/api';
 
-export const createReview: ExpressHandler<
-  {
-    productId: string;
-    rating: number;
-    review: string;
-  },
-  {}
-> = async (req, res) => {
+export const createReview: ExpressHandler<createReviewRequest, {}> = async (req, res) => {
   const { productId, rating, review } = req.body;
   if (!productId || !rating || !review) {
     return res.status(400).json({ error: 'All fields are required' });

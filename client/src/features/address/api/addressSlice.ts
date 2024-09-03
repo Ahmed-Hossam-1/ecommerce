@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "universal-cookie";
-import { Address, createAddressReq } from "../../../types/type";
+import { createAddressReq, updateAddressReq } from "../../../types/api";
+import { Address } from "../../../types/type";
 
 export const addressSlice = createApi({
   reducerPath: "addressApi",
@@ -20,7 +21,7 @@ export const addressSlice = createApi({
       },
       providesTags: ["Address"],
     }),
-    addAddress: builder.mutation<void, createAddressReq>({
+    addAddress: builder.mutation<{ message: string }, createAddressReq>({
       query: (address) => {
         const cookies = new Cookies(null, { path: "/" });
         const token = cookies.get("token");
@@ -35,7 +36,7 @@ export const addressSlice = createApi({
       },
       invalidatesTags: ["Address"],
     }),
-    updateAddress: builder.mutation<void, createAddressReq>({
+    updateAddress: builder.mutation<{ message: string }, updateAddressReq>({
       query: (address) => {
         const cookies = new Cookies(null, { path: "/" });
         const token = cookies.get("token");

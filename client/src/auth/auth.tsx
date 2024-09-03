@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   useSigninUserMutation,
   useSignupUserMutation,
@@ -10,6 +9,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import CustomInput from "../components/CustomInput";
 import { z } from "zod";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const { pathname } = useLocation();
@@ -39,10 +39,11 @@ const Signup = () => {
           password: data.password,
         };
         const res = await signupUser(user);
+        if (res.error) {
+          toast.error(res.error.data.error);
+        }
         cookies.set("token", res.data.jwt);
-        // cookies.set("role", res.data.role);
-        if (res.data.role == "admin" || res.data.role == "seller")
-          nav("/admin_page");
+        if (res.data.role == "admin") nav("/admin_page");
         else nav("/");
         reset();
       } else if (pathname === "/signin") {
@@ -51,14 +52,16 @@ const Signup = () => {
           password: data.password,
         };
         const res = await signinUser(user);
+        if (res.error) {
+          toast.error(res.error.data.error);
+        }
         cookies.set("token", res.data.jwt);
-        // cookies.set("role", res.data.role);
         if (res.data.role == "admin") nav("/admin_page");
         else nav("/");
         reset();
       }
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
   };
 

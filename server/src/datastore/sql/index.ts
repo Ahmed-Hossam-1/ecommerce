@@ -1,10 +1,17 @@
 import sqlite3 from 'sqlite3';
 import { DataStore } from '..';
 import { Database, open } from 'sqlite';
-import { Address, Category, Product, SellerReq, User } from '../../types/typeDao';
+import {
+  Address,
+  Category,
+  Order,
+  OrderItem,
+  Product,
+  Review,
+  SellerReq,
+  User,
+} from '../../types/typeDao';
 import path from 'path';
-import { Order, OrderItem } from '../dao/OrderDao';
-import { Review } from '../dao/ReviewsDao';
 
 export class SqlDataStore implements DataStore {
   private db!: Database<sqlite3.Database, sqlite3.Statement>;

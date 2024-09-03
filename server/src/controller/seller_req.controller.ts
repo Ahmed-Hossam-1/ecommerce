@@ -3,8 +3,8 @@ import { sendEmail } from '../utils/sendEmail';
 import { passwordHash } from '../utils/passwordHash';
 import { ExpressHandler, ExpressHandlerWithParams, SellerReq } from '../types/typeDao';
 import { createSellerRequest, createSellerResponse } from '../types/api';
-import crypto from 'crypto';
 import { emitNewSellerRequest } from '../utils/reqRealTime';
+import crypto from 'crypto';
 
 export const createRequest: ExpressHandler<createSellerRequest, createSellerResponse> = async (
   req,

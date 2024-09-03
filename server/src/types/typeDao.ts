@@ -1,23 +1,5 @@
 import { RequestHandler } from 'express';
 
-// user
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  role: 'user' | 'admin' | 'seller';
-}
-
-export interface SellerReq {
-  requestId: string;
-  userId: string;
-  name: string;
-  email: string;
-  password: string;
-  status: 'approved' | 'rejected' | 'pending';
-}
-
 // express handler
 export type withError<T> = T & { error: string; message: string };
 export type ExpressHandler<Req, Res> = RequestHandler<
@@ -36,6 +18,24 @@ export type ExpressHandlerWithParams<Params, Req, Res> = RequestHandler<
 
 export interface jwtType {
   userId: string | undefined;
+}
+
+// user
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: 'user' | 'admin' | 'seller';
+}
+
+export interface SellerReq {
+  requestId: string;
+  userId: string;
+  name: string;
+  email: string;
+  password: string;
+  status: 'approved' | 'rejected' | 'pending';
 }
 
 export interface Category {
@@ -64,4 +64,26 @@ export interface Address {
   state: string;
   country: string;
   phone: string;
+}
+
+export interface Review {
+  id: string;
+  productId: string;
+  userId: string;
+  rating: number;
+  review: string;
+}
+
+export interface Order {
+  id: string;
+  userId: string;
+  totalAmount: number;
+}
+
+export interface OrderItem {
+  id: string;
+  orderId: string;
+  productId: string;
+  quantity: number;
+  price: number;
 }

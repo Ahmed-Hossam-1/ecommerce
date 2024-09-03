@@ -1,32 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createOrderRequest } from "../../types/api";
+import { Order } from "../../types/type";
 import Cookies from "universal-cookie";
-
-export interface Order {
-  id: string;
-  createdAt: Date;
-  totalAmount: number;
-}
-
-// export interface OrderItem {
-//   id: string;
-//   orderId: string;
-//   productId: string;
-//   quantity: number;
-//   price: number;
-// }
 
 export const orderSlice = createApi({
   reducerPath: "orderApi",
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
   tagTypes: ["Order"],
   endpoints: (builder) => ({
-    createOrder: builder.mutation<
-      { message: string },
-      {
-        totalAmount: number;
-        items: { productId: string; quantity: number; price: number }[];
-      }
-    >({
+    createOrder: builder.mutation<{ message: string }, createOrderRequest>({
       query: (order) => {
         const cookies = new Cookies(null, { path: "/" });
         const token = cookies.get("token");

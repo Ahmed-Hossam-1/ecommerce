@@ -8,7 +8,6 @@ export interface SignUpRequest {
 }
 
 export interface SignUpResponse {
-  role: string;
   jwt: string;
 }
 
@@ -32,13 +31,13 @@ export interface createUserRequest {
   role: 'user' | 'admin' | 'seller';
 }
 
-export interface createUserResponse {
-  user: Pick<User, 'id' | 'name' | 'email' | 'role'>;
-}
+// export interface createUserResponse {
+//   user: Pick<User, 'id' | 'name' | 'email' | 'role'>;
+// }
 
 export interface updateUserRequest extends createUserRequest {}
 
-export interface updateUserResponse extends createUserResponse {}
+// export interface updateUserResponse extends createUserResponse {}
 
 export interface createSellerRequest {
   name: string;
@@ -98,3 +97,14 @@ export interface createAddressRequest {
 }
 
 export interface editAddressRequest extends createAddressRequest {}
+
+export interface OrderItemRequest {
+  totalAmount: number;
+  items: { productId: string; quantity: number; price: number }[];
+}
+
+export interface createReviewRequest {
+  productId: string;
+  rating: number;
+  review: string;
+}

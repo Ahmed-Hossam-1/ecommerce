@@ -5,6 +5,7 @@ import { Product } from "../../../types/type";
 import {
   createProductRequest,
   createProductResponse,
+  searchProductsRequest,
 } from "../../../types/api";
 
 export const productSlice = createApi({
@@ -16,6 +17,7 @@ export const productSlice = createApi({
       query: () => "/api/product/all",
       providesTags: ["Product"],
     }),
+
     getProductsByCategory: builder.query<
       { products: Product[] },
       { productByCategoryId: string }
@@ -24,10 +26,12 @@ export const productSlice = createApi({
         `/api/product/products/${productByCategoryId}`,
       providesTags: ["Product"],
     }),
+
     getProduct: builder.query<{ product: Product }, { productId: string }>({
       query: ({ productId }) => `/api/product/single/${productId}`,
       providesTags: ["Product"],
     }),
+
     createProduct: builder.mutation<
       createProductResponse,
       createProductRequest
@@ -68,8 +72,8 @@ export const productSlice = createApi({
       invalidatesTags: ["Product"],
     }),
 
-    deleteProduct: builder.mutation({
-      query: (id: string) => ({
+    deleteProduct: builder.mutation<{ message: string; id: string }>({
+      query: (id) => ({
         url: `/api/product/${id}`,
         method: "DELETE",
       }),
@@ -77,8 +81,8 @@ export const productSlice = createApi({
     }),
 
     searchProducts: builder.mutation<
-      { products: createProductResponse[] },
-      { searchTerm: string; categoryId: string }
+      { products: Product[] },
+      searchProductsRequest
     >({
       query: ({ categoryId, searchTerm }) => ({
         url: `/api/product/search?searchTerm=${searchTerm}&categoryId=${categoryId}`,
@@ -97,7 +101,7 @@ export const productSlice = createApi({
       providesTags: ["Product"],
     }),
 
-    getTopRatedProducts: builder.query({
+    getTopRatedProducts: builder.query<{ products: Product[] }, void>({
       query: () => {
         return {
           url: "/api/product/top-product/top-rated?limit=10",
@@ -106,7 +110,7 @@ export const productSlice = createApi({
       },
       providesTags: ["Product"],
     }),
-    getProductsBySeller: builder.query({
+    getProductsBySeller: builder.query<{ products: Product[] }, void>({
       query: () => {
         const cookies = new Cookies(null, { path: "/" });
         const token = cookies.get("token");

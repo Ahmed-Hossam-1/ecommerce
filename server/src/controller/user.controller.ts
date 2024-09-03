@@ -1,12 +1,5 @@
 import { db } from '../datastore';
-import {
-  createUserRequest,
-  createUserResponse,
-  updateUserRequest,
-  updateUserResponse,
-  UsersRequest,
-  UsersResponse,
-} from '../types/api';
+import { createUserRequest, updateUserRequest, UsersRequest, UsersResponse } from '../types/api';
 import { ExpressHandler, ExpressHandlerWithParams, User } from '../types/typeDao';
 import { passwordHash } from '../utils/passwordHash';
 import crypto from 'crypto';
@@ -16,10 +9,7 @@ export const getAllUsers: ExpressHandler<UsersRequest, UsersResponse> = async (_
   return res.status(200).send({ users: usersDb });
 };
 
-export const createUser: ExpressHandler<createUserRequest, createUserResponse> = async (
-  req,
-  res
-) => {
+export const createUser: ExpressHandler<createUserRequest, {}> = async (req, res) => {
   const { name, email, password, role } = req.body;
   if (!email || !name || !password || !role) {
     return res.status(400).send({ error: 'All fields are required' });
@@ -37,19 +27,14 @@ export const createUser: ExpressHandler<createUserRequest, createUserResponse> =
   };
   await db.createUser(newUser);
   res.status(201).send({
-    user: {
-      id: newUser.id,
-      name: newUser.name,
-      email: newUser.email,
-      role: newUser.role,
-    },
+    message: 'User created',
   });
 };
 
 export const updateUser: ExpressHandlerWithParams<
   { userId: string },
   updateUserRequest,
-  updateUserResponse
+  {}
 > = async (req, res) => {
   const { userId } = req.params;
   const { name, email, role } = req.body;
@@ -79,12 +64,7 @@ export const updateUser: ExpressHandlerWithParams<
   await db.updateUser(updatedUser);
 
   res.status(200).send({
-    user: {
-      id: updatedUser.id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      role: updatedUser.role,
-    },
+    message: 'User updated',
   });
 };
 

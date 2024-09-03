@@ -15,10 +15,10 @@ export const userSlice = createApi({
       query: () => "/api/user",
       providesTags: ["Users"],
     }),
-    getUserById: builder.query<User, string>({
+    getUserById: builder.query<{ user: User }, string>({
       query: (id) => `/api/user/${id}`,
     }),
-    createUser: builder.mutation<User, User>({
+    createUser: builder.mutation<{ message: string }, User>({
       query: (body) => ({
         url: "/api/user",
         method: "POST",
@@ -31,7 +31,7 @@ export const userSlice = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
-    updateUser: builder.mutation<void, User>({
+    updateUser: builder.mutation<{ message: string }, User>({
       query: (body) => ({
         url: `/api/user/${body.id}`,
         method: "PUT",
@@ -43,7 +43,7 @@ export const userSlice = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
-    deleteUser: builder.mutation<User, void>({
+    deleteUser: builder.mutation<{ message: string }, { id: string }>({
       query: (id) => ({
         url: `/api/user/${id}`,
         method: "DELETE",

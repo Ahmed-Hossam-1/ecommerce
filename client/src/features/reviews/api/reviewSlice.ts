@@ -1,19 +1,7 @@
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
+import { createReviewRequest } from "../../../types/api";
+import { Review } from "../../../types/type";
 import Cookies from "universal-cookie";
-
-interface createReviewRequest {
-  productId: string;
-  rating: number;
-  review: string;
-}
-
-interface Review {
-  id: string;
-  productId: string;
-  rating: number;
-  review: string;
-  createdAt: Date;
-}
 
 export const reviewSlice = createApi({
   reducerPath: "reviewApi",
@@ -39,7 +27,7 @@ export const reviewSlice = createApi({
       providesTags: ["Review"],
     }),
 
-    createReview: builder.mutation<void, createReviewRequest>({
+    createReview: builder.mutation<{ message: string }, createReviewRequest>({
       query: (body) => {
         const cookies = new Cookies(null, { path: "/" });
         const token = cookies.get("token");

@@ -1,10 +1,4 @@
-export interface Review {
-  id: string;
-  productId: string;
-  userId: string;
-  rating: number;
-  review: string;
-}
+import { Review } from '../../types/typeDao';
 
 export interface ReviewsDao {
   createReview: (review: Review) => Promise<void>;

@@ -11,6 +11,4 @@ export interface ProductDao {
   getTopSellingProducts: (limit: number) => Promise<Product[]>;
   getTopRatedProducts: (limit: number) => Promise<Product[]>;
   getProductsBySeller: (sellerId: string) => Promise<Product[]>;
-  // searchProducts: (searchTerm: string) => Promise<Product[]>;
-  // getProductsByCategoryAndSeller: (categoryId: string, sellerId: string) => Promise<Product[]>;
 }

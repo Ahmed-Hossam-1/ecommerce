@@ -4,17 +4,11 @@ export interface Column {
 }
 
 export interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   password?: string;
   role: string;
-}
-
-export interface requests {
-  id: string;
-  name: string;
-  email: string;
 }
 
 export interface Product {
@@ -29,15 +23,6 @@ export interface Product {
   sellerId?: string;
 }
 
-export interface createAddressReq {
-  id?: string;
-  street: string;
-  city: string;
-  state: string;
-  country: string;
-  phone: string;
-}
-
 export interface Address {
   id: string;
   userId: string;
@@ -48,13 +33,30 @@ export interface Address {
   phone: string;
 }
 
-export interface signupArg {
-  name: string;
-  email: string;
-  password: string;
+export interface Category {
+  categoryId?: string;
+  categoryName: string;
+  categoryDescription: string;
 }
 
-export interface signinArg {
+export interface Order {
+  id: string;
+  createdAt: Date;
+  totalAmount: number;
+}
+
+export interface Review {
+  id: string;
+  productId: string;
+  rating: number;
+  review: string;
+  createdAt: Date;
+}
+
+export interface SellerReq {
+  id: string;
+  userId: string;
+  name: string;
   email: string;
-  password: string;
+  status: "pending" | "approved" | "rejected";
 }

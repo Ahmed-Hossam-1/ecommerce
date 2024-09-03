@@ -25,7 +25,6 @@ export const signupController: ExpressHandler<SignUpRequest, SignUpResponse> = a
   const jwt = await createJwt({ userId: newUser.id });
   res.status(201).send({
     jwt,
-    role: newUser.role,
   });
 };
 
@@ -37,13 +36,12 @@ export const signIn: ExpressHandler<SignInRequest, SignInResponse> = async (req,
 
   const existing = await db.getUserByEmail(email);
   if (!existing || existing.password !== passwordHash(password)) {
-    return res.sendStatus(403);
+    return res.status(403).send({ error: 'Invalid email or password' });
   }
 
   const jwt = await createJwt({ userId: existing.id });
 
   return res.status(200).send({
     jwt,
-    role: existing.role,
   });
 };

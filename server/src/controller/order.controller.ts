@@ -1,11 +1,8 @@
 import { db } from '../datastore';
-import { Order, OrderItem } from '../datastore/dao/OrderDao';
-import { ExpressHandler } from '../types/typeDao';
+import { OrderItemRequest } from '../types/api';
+import { ExpressHandler, Order, OrderItem } from '../types/typeDao';
 import crypto from 'crypto';
-interface OrderItemRequest {
-  totalAmount: number;
-  items: { productId: string; quantity: number; price: number }[];
-}
+
 export const createOrder: ExpressHandler<OrderItemRequest, {}> = async (req, res) => {
   const { items, totalAmount } = req.body;
 

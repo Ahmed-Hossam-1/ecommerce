@@ -1,17 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface Category {
-  categoryId?: string;
-  categoryName: string;
-  categoryDescription: string;
-}
+import { createCategoryRequest, updateCategoryRequest } from "../../types/api";
 
 export const categorySlice = createApi({
   reducerPath: "categoryApi",
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
   tagTypes: ["Categories"],
   endpoints: (builder) => ({
-    createCategory: builder.mutation<void, Category>({
+    createCategory: builder.mutation<
+      { message: string },
+      createCategoryRequest
+    >({
       query: (category) => ({
         url: "/api/category",
         method: "POST",
@@ -19,7 +17,10 @@ export const categorySlice = createApi({
       }),
       invalidatesTags: ["Categories"],
     }),
-    updateCategory: builder.mutation<void, Category>({
+    updateCategory: builder.mutation<
+      { message: string },
+      updateCategoryRequest
+    >({
       query: (category) => ({
         url: `/api/category/${category.categoryId}`,
         method: "PUT",

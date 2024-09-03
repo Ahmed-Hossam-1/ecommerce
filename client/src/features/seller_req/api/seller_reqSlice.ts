@@ -1,22 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface SellerReq {
-  id: string;
-  userId: string;
-  name: string;
-  email: string;
-  status: "pending" | "approved" | "rejected";
-}
-
-interface GetSellerReqResponse {
-  requests: SellerReq[];
-}
-
-interface sendSellerReq {
-  name: string;
-  email: string;
-  password: string;
-}
+import { createSellerReq, GetSellerReqResponse } from "../../../types/api";
 
 export const seller_reqSlice = createApi({
   reducerPath: "sellerReqApi",
@@ -27,7 +10,8 @@ export const seller_reqSlice = createApi({
       query: () => "/api/seller_req",
       providesTags: ["seller_req"],
     }),
-    sendSellerReq: builder.mutation<sendSellerReq, sendSellerReq>({
+
+    sendSellerReq: builder.mutation<{ message: string }, createSellerReq>({
       query: (sellerReq) => ({
         url: "/api/seller_req/create",
         method: "POST",
@@ -35,6 +19,7 @@ export const seller_reqSlice = createApi({
       }),
       invalidatesTags: ["seller_req"],
     }),
+
     updateSellerReq: builder.mutation<
       { message: string },
       { id: string; status: "approved" | "rejected" }

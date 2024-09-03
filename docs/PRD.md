@@ -27,13 +27,11 @@
 
 ## Design (UI/UX):
 
-- From my imagination
 - craete by figma(wireFrame) :https://www.figma.com/design/3YgmiOnQCPsXkH4MPTFQ8A/ecommerce?node-id=0-1&t=fHEO47v8WvobG1EP-1
 
 ## Clients:
 
 - The web client will be implemented in React.js.
-- API server will serve a static bundle of the React app.
 - Uses RTK to talk to the backend.
 - Uses Tailwind CSS for building the CSS components.
 
@@ -45,13 +43,3 @@
 ## Integrations:
 
 - Stripe for payment processing.
-
-## Timeline:
-
-- Week 1: Setting up the project structure and implementing the login and registration functionality.
-- Week 2: Implementing the product viewing and adding to cart functionality.
-- Week 3: Implementing the purchase completion and product review functionality.
-- Week 4: Implementing the admin dashboard and managing personal accounts functionality.
-- Week 5: Testing and debugging the application.
-- Week 6: Deploying the application to production.
-- Week 7: Maintenance and updates.
