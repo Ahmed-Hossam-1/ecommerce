@@ -14,12 +14,14 @@ const Categories_page = () => {
     { key: "categoryDescription", title: "Description" },
   ];
 
-  const { data, isLoading, isError } = useGetAllCategoriesQuery({});
+  const { data, isLoading, isError } = useGetAllCategoriesQuery();
   const [deleteCategory] = useDeleteCategoryMutation();
 
   const handleDelete = async (id: string) => {
-    const res = await deleteCategory(id);
-    toast.success(res.data.message);
+    const res = await deleteCategory({ categoryId: id });
+    if (res.data) {
+      toast.success(res.data.message);
+    }
   };
 
   return (

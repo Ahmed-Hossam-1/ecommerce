@@ -82,20 +82,20 @@ export const editAddress: ExpressHandlerWithParams<{ id: string }, editAddressRe
   return res.status(200).json({ message: 'Address updated successfully' });
 };
 
-export const getSingleAddress: ExpressHandlerWithParams<
-  { addressId: string },
-  {},
-  { address: Address }
-> = async (req, res) => {
-  const { addressId } = req.params;
-  if (!addressId) {
-    return res.status(400).json({ error: 'Address Id is required' });
-  }
+// export const getSingleAddress: ExpressHandlerWithParams<
+//   { addressId: string },
+//   {},
+//   { address: Address }
+// > = async (req, res) => {
+//   const { addressId } = req.params;
+//   if (!addressId) {
+//     return res.status(400).json({ error: 'Address Id is required' });
+//   }
 
-  const address = await db.getAddressById(addressId);
-  if (!address) {
-    return res.status(404).json({ error: 'Address not found' });
-  }
+//   const address = await db.getAddressById(addressId);
+//   if (!address) {
+//     return res.status(404).json({ error: 'Address not found' });
+//   }
 
-  return res.status(200).json({ address });
-};
+//   return res.status(200).json({ address });
+// };

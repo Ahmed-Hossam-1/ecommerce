@@ -65,7 +65,7 @@ const Profile = () => {
       </div>
 
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10 dark:bg-gray-700 ">
+        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg z-10 dark:bg-gray-700 ">
           <div
             onClick={togglePopup}
             className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
@@ -75,7 +75,15 @@ const Profile = () => {
           {(currentUser?.user?.role === "admin" ||
             currentUser?.user?.role === "seller") && (
             <Link
-              to={pathname.startsWith("/admin_page") ? "/" : "/admin_page"}
+              to={
+                currentUser.user.role == "seller"
+                  ? pathname.startsWith("/admin_page")
+                    ? "/"
+                    : "/admin_page/products"
+                  : pathname.startsWith("/admin_page")
+                  ? "/"
+                  : "/admin_page"
+              }
               className="block px-4 py-2 text-gray-800 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-800"
             >
               {pathname.startsWith("/admin_page")

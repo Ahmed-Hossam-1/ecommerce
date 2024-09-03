@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "universal-cookie";
 
-// export interface Order {
-//   id: string;
-//   userId: string;
-//   totalAmount: number;
-// }
+export interface Order {
+  id: string;
+  createdAt: Date;
+  totalAmount: number;
+}
 
 // export interface OrderItem {
 //   id: string;
@@ -21,7 +21,7 @@ export const orderSlice = createApi({
   tagTypes: ["Order"],
   endpoints: (builder) => ({
     createOrder: builder.mutation<
-      void,
+      { message: string },
       {
         totalAmount: number;
         items: { productId: string; quantity: number; price: number }[];
@@ -41,7 +41,21 @@ export const orderSlice = createApi({
         };
       },
     }),
+    getOrderByUserId: builder.query<{ orders: Order[] }, void>({
+      query: () => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+
+        return {
+          url: `/api/order/get-order`,
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useCreateOrderMutation } = orderSlice;
+export const { useCreateOrderMutation, useGetOrderByUserIdQuery } = orderSlice;

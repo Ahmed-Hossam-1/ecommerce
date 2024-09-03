@@ -18,13 +18,43 @@ export interface requests {
 }
 
 export interface Product {
-  id: string;
+  id?: string;
   name: string;
-  description: string;
+  description?: string;
   price: number;
   quantity: number;
   mainImage?: string;
   images?: string;
   categoryId?: string;
   sellerId?: string;
+}
+
+export interface createAddressReq {
+  id?: string;
+  street: string;
+  city: string;
+  state: string;
+  country: string;
+  phone: string;
+}
+
+export interface Address {
+  id: string;
+  userId: string;
+  street: string;
+  city: string;
+  state: string;
+  country: string;
+  phone: string;
+}
+
+export interface signupArg {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface signinArg {
+  email: string;
+  password: string;
 }

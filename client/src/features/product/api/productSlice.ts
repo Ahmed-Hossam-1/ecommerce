@@ -2,34 +2,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "universal-cookie";
 import { Product } from "../../../types/type";
-
-export interface createProductRequest {
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  categoryId: string;
-  mainImage: string;
-  images: string[];
-}
-export interface createProductResponse {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  mainImage: string;
-  images: string[];
-  categoryId: string;
-  sellerId: string;
-}
+import {
+  createProductRequest,
+  createProductResponse,
+} from "../../../types/api";
 
 export const productSlice = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
   tagTypes: ["Product"],
   endpoints: (builder) => ({
-    getAllProducts: builder.query({
+    getAllProducts: builder.query<{ products: Product[] }, void>({
       query: () => "/api/product/all",
       providesTags: ["Product"],
     }),
@@ -65,7 +48,10 @@ export const productSlice = createApi({
       invalidatesTags: ["Product"],
     }),
 
-    updateProduct: builder.mutation({
+    updateProduct: builder.mutation<
+      { message: string },
+      { id: string; data: Product }
+    >({
       query: ({ id, data }) => {
         const cookies = new Cookies(null, { path: "/" });
         const token = cookies.get("token");

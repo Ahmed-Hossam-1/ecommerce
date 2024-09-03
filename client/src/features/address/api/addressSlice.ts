@@ -1,31 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import Cookies from "universal-cookie";
-
-interface createAddressReq {
-  id?: string;
-  street: string;
-  city: string;
-  state: string;
-  country: string;
-  phone: string;
-}
-
-// interface address {
-//   id: string;
-//   userId: string;
-//   street: string;
-//   city: string;
-//   state: string;
-//   country: string;
-//   phone: string;
-// }
+import { Address, createAddressReq } from "../../../types/type";
 
 export const addressSlice = createApi({
   reducerPath: "addressApi",
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
   tagTypes: ["Address"],
   endpoints: (builder) => ({
-    getAddressByUserId: builder.query({
+    getAddressByUserId: builder.query<{ address: Address }, void>({
       query: () => {
         const cookies = new Cookies(null, { path: "/" });
         const token = cookies.get("token");

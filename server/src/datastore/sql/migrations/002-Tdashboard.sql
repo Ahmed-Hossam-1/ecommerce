@@ -6,7 +6,6 @@ CREATE TABLE SELLER_REQUEST(
       password  VARCHAR NOT NULL,
       status    VARCHAR NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')),
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE CATEGORIES (

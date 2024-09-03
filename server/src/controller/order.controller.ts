@@ -41,3 +41,15 @@ export const createOrder: ExpressHandler<OrderItemRequest, {}> = async (req, res
 
   res.status(201).json({ message: 'Order created successfully' });
 };
+
+export const getOrder: ExpressHandler<{}, { orders: Order[] }> = async (_, res) => {
+  const userId = res.locals.userId;
+  if (!userId) {
+    return res
+      .status(401)
+      .json({ error: 'Unauthorized', message: 'You are not authorized to get orders' });
+  }
+
+  const orders = await db.getOrdersByUserId(userId);
+  res.status(200).json({ orders });
+};

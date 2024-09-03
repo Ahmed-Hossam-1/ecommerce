@@ -11,35 +11,41 @@ export const categorySlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_BASE_URL }),
   tagTypes: ["Categories"],
   endpoints: (builder) => ({
-    createCategory: builder.mutation({
-      query: (category: Category) => ({
+    createCategory: builder.mutation<void, Category>({
+      query: (category) => ({
         url: "/api/category",
         method: "POST",
         body: category,
       }),
       invalidatesTags: ["Categories"],
     }),
-    updateCategory: builder.mutation({
-      query: (category: Category) => ({
+    updateCategory: builder.mutation<void, Category>({
+      query: (category) => ({
         url: `/api/category/${category.categoryId}`,
         method: "PUT",
         body: category,
       }),
       invalidatesTags: ["Categories"],
     }),
-    deleteCategory: builder.mutation({
-      query: (categoryId: string) => ({
+    deleteCategory: builder.mutation<
+      { message: string },
+      { categoryId: string }
+    >({
+      query: (categoryId) => ({
         url: `/api/category/${categoryId}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Categories"],
     }),
-    getAllCategories: builder.query({
+    getAllCategories: builder.query<{ categories: Category[] }, void>({
       query: () => "/api/category",
       providesTags: ["Categories"],
     }),
-    getCategoryById: builder.query({
-      query: (categoryId: string) => ({
+    getCategoryById: builder.query<
+      { category: Category },
+      { categoryId: string }
+    >({
+      query: (categoryId) => ({
         url: `/api/category/${categoryId}`,
       }),
       providesTags: ["Categories"],

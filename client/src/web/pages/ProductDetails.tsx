@@ -74,8 +74,8 @@ const ProductDetails = () => {
       <Header />
       <div className="dark:bg-gray-800">
         {/* Product details */}
-        <div className="container w-full flex justify-center flex-wrap pt-[130px] pb-[45px]">
-          <div className="w-1/2">
+        <div className="container w-full flex justify-center flex-col gap-y-10 md:flex-row pt-[130px] pb-[45px]">
+          <div className="w-full md:w-1/2">
             <Swiper
               effect={"cards"}
               grabCursor={true}
@@ -98,7 +98,7 @@ const ProductDetails = () => {
                 ))}
             </Swiper>
           </div>
-          <div className="w-1/2">
+          <div className="w-full md:w-1/2">
             <h1 className="text-4xl font-bold mb-3 dark:text-white">
               {productData?.product?.name}
             </h1>
@@ -154,7 +154,7 @@ const ProductDetails = () => {
           <h2 className="text-4xl font-bold text-center py-10 dark:text-white">
             Reviews
           </h2>
-          <div className="w-[50%]">
+          <div className="w-full md:w-[50%]">
             <textarea
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
@@ -188,36 +188,38 @@ const ProductDetails = () => {
               Submit
             </button>
           </div>
-          <hr className="w-full mx-auto my-10" />
           {reviews?.reviews.map((review) => (
-            <div key={review.id} className="w-[50%]">
-              <div className="flex items-start gap-2">
-                <FontAwesomeIcon
-                  icon={faUser}
-                  className="text-gray-700 dark:text-gray-500 bg-slate-100 p-3 rounded-full"
-                />
-                <div>
-                  <p className="dark:text-white">
-                    {new Date(review.createdAt).toLocaleDateString()}
-                  </p>
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <FontAwesomeIcon
-                      key={index}
-                      icon={faStar}
-                      className={`${
-                        index < review.rating
-                          ? "text-yellow-500"
-                          : "text-gray-300"
-                      }`}
-                    />
-                  ))}
+            <>
+              <hr className="w-full mx-auto my-10" />
+              <div key={review.id} className="w-full md:w-[50%]">
+                <div className="flex items-start gap-2">
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    className="text-gray-700 dark:text-gray-500 bg-slate-100 p-3 rounded-full"
+                  />
+                  <div>
+                    <p className="dark:text-white">
+                      {new Date(review.createdAt).toLocaleDateString()}
+                    </p>
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <FontAwesomeIcon
+                        key={index}
+                        icon={faStar}
+                        className={`${
+                          index < review.rating
+                            ? "text-yellow-500"
+                            : "text-gray-300"
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
+                <p className="text-lg text-[#777] mb-3 ml-11 dark:text-white">
+                  {review.review}
+                </p>
+                <hr className="py-10" />
               </div>
-              <p className="text-lg text-[#777] mb-3 ml-11 dark:text-white">
-                {review.review}
-              </p>
-              <hr className="py-10" />
-            </div>
+            </>
           ))}
         </div>
       </div>
