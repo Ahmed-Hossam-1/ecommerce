@@ -33,6 +33,11 @@ dotenv.config();
   app.use(cors());
   app.use(express.json());
 
+  // test api
+  app.get('/', (_, res) => {
+    res.send({ status: 'ok!' });
+  });
+
   // Routes
   app.use('/api/auth', authRouter);
   app.use('/api/user', userRouter);

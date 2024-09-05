@@ -35,8 +35,8 @@ const RegisterSeller = () => {
 
   return (
     <div className="w-full h-[100vh] flex">
-      <div className="w-[40%] p-[30px] flex flex-col justify-center bg-white">
-        <h1 className="text-[30px] text-secondary font-bold text-center pb-10">
+      <div className="w-[40%] p-[30px] flex flex-col justify-center bg-white dark:bg-secbgDark800">
+        <h1 className="text-[30px] text-secondary font-bold text-center pb-10 dark:text-white">
           Register as a seller
         </h1>
         <form
@@ -68,7 +68,7 @@ const RegisterSeller = () => {
             label="password"
           />
           <button
-            className={`w-[350px] bg-secondary p-2 rounded-md mt-3 ${
+            className={`w-[350px] bg-secondary dark:text-mainTextDark hover:bg-primary p-2 rounded-md mt-3 ${
               isLoading || isSubmitting ? "opacity-50" : ""
             }`}
             disabled={isSubmitting || isLoading}

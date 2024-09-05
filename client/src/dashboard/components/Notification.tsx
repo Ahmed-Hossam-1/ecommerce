@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import useSocket from "../../hooks/useSocket";
 import { toast } from "react-toastify";
 import { useEffect, useRef, useState } from "react";
@@ -7,7 +6,9 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 const Notification = () => {
   const socket = useSocket();
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<
+    { name: string; email: string }[]
+  >([]);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
