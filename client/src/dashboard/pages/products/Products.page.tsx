@@ -29,7 +29,7 @@ const Products_page = () => {
   const [deleteProduct] = useDeleteProductMutation();
 
   const handleDelete = async (id: string) => {
-    const res = await deleteProduct(id);
+    const res = await deleteProduct({ id });
     res.data && toast.success(res.data.message);
   };
 

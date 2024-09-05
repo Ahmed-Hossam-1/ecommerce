@@ -18,7 +18,8 @@ const UsersPage = () => {
   const [deleteUser] = useDeleteUserMutation();
 
   const handleDelete = async (id: string) => {
-    const res = await deleteUser(id);
+    const res = await deleteUser({ id });
+    console.log(res);
     res.data && toast.success(res.data.message);
   };
 

@@ -1,4 +1,4 @@
-# ERD: E-commerce
+# PRD: E-commerce
 
 ## Objectives:
 

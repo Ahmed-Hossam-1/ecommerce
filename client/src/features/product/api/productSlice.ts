@@ -72,11 +72,19 @@ export const productSlice = createApi({
       invalidatesTags: ["Product"],
     }),
 
-    deleteProduct: builder.mutation<{ message: string; id: string }>({
-      query: (id) => ({
-        url: `/api/product/${id}`,
-        method: "DELETE",
-      }),
+    deleteProduct: builder.mutation<{ message: string }, { id: string }>({
+      query: ({ id }) => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+
+        return {
+          url: `/api/product/${id}`,
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
       invalidatesTags: ["Product"],
     }),
 

@@ -27,10 +27,13 @@ const data = {
     {
       label: "Sales",
       data: [65, 59, 80, 81, 56, 55, 40],
-      fill: false,
       borderColor: "rgb(75, 192, 192)",
-      tension: 0.1,
     },
+    // {
+    //   label: "Sales",
+    //   data: [70, 80, 40, 50, 43, 23, 55],
+    //   borderColor: "rgb(188, 192, 75)",
+    // },
   ],
 };
 
@@ -38,16 +41,17 @@ const data = {
 const options: ChartOptions<"line"> = {
   responsive: true,
   plugins: {
-    legend: {
-      position: "top" as const,
+    title: {
+      display: true,
+      text: "Sales Overview",
     },
-    tooltip: {
-      callbacks: {
-        label: function (tooltipItem) {
-          return `Value: ${tooltipItem.raw}`;
-        },
-      },
-    },
+    // tooltip: {
+    //   callbacks: {
+    //     label: function (tooltipItem) {
+    //       return `Value: ${tooltipItem.raw}`;
+    //     },
+    //   },
+    // },
   },
 };
 
@@ -90,13 +94,11 @@ function AdminPage() {
       </div>
 
       {/* Chart */}
-      <div className="bg-white dark:bg-secbgDark800 shadow-md rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
+      <div className="bg-white  dark:bg-secbgDark800 shadow-md h-[600px] rounded-lg p-1 md:p-6">
+        {/* <h2 className="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
           Sales Overview
-        </h2>
-        <div className="w-full">
-          <Line data={data} options={options} />
-        </div>
+        </h2> */}
+        <Line data={data} options={options} />
       </div>
     </div>
   );

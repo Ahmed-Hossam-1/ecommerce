@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { createCategoryRequest, updateCategoryRequest } from "../../types/api";
+import {
+  createCategoryRequest,
+  updateCategoryRequest,
+} from "../../../types/api";
+import { Category } from "../../../types/type";
+import Cookies from "universal-cookie";
 
 export const categorySlice = createApi({
   reducerPath: "categoryApi",
@@ -10,32 +15,56 @@ export const categorySlice = createApi({
       { message: string },
       createCategoryRequest
     >({
-      query: (category) => ({
-        url: "/api/category",
-        method: "POST",
-        body: category,
-      }),
+      query: (category) => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+        return {
+          url: "/api/category",
+          method: "POST",
+          body: category,
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
       invalidatesTags: ["Categories"],
     }),
+
     updateCategory: builder.mutation<
       { message: string },
       updateCategoryRequest
     >({
-      query: (category) => ({
-        url: `/api/category/${category.categoryId}`,
-        method: "PUT",
-        body: category,
-      }),
+      query: (category) => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+        return {
+          url: `/api/category/${category.categoryId}`,
+          method: "PUT",
+          body: category,
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
       invalidatesTags: ["Categories"],
     }),
+
     deleteCategory: builder.mutation<
       { message: string },
       { categoryId: string }
     >({
-      query: (categoryId) => ({
-        url: `/api/category/${categoryId}`,
-        method: "DELETE",
-      }),
+      query: ({ categoryId }) => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+
+        return {
+          url: `/api/category/${categoryId}`,
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
       invalidatesTags: ["Categories"],
     }),
     getAllCategories: builder.query<{ categories: Category[] }, void>({

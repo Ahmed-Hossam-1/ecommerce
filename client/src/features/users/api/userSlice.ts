@@ -18,36 +18,59 @@ export const userSlice = createApi({
     getUserById: builder.query<{ user: User }, string>({
       query: (id) => `/api/user/${id}`,
     }),
+
     createUser: builder.mutation<{ message: string }, User>({
-      query: (body) => ({
-        url: "/api/user",
-        method: "POST",
-        body: {
-          name: body.name,
-          email: body.email,
-          password: body.password,
-          role: body.role,
-        },
-      }),
+      query: (body) => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+        return {
+          url: "/api/user",
+          method: "POST",
+          body: {
+            name: body.name,
+            email: body.email,
+            password: body.password,
+            role: body.role,
+          },
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
       invalidatesTags: ["Users"],
     }),
     updateUser: builder.mutation<{ message: string }, User>({
-      query: (body) => ({
-        url: `/api/user/${body.id}`,
-        method: "PUT",
-        body: {
-          name: body.name,
-          email: body.email,
-          role: body.role,
-        },
-      }),
+      query: (body) => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+        return {
+          url: `/api/user/${body.id}`,
+          method: "PUT",
+          body: {
+            name: body.name,
+            email: body.email,
+            role: body.role,
+          },
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
+
       invalidatesTags: ["Users"],
     }),
     deleteUser: builder.mutation<{ message: string }, { id: string }>({
-      query: (id) => ({
-        url: `/api/user/${id}`,
-        method: "DELETE",
-      }),
+      query: ({ id }) => {
+        const cookies = new Cookies(null, { path: "/" });
+        const token = cookies.get("token");
+        return {
+          url: `/api/user/${id}`,
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        };
+      },
       invalidatesTags: ["Users"],
     }),
     currentUser: builder.query<{ user: User }, void>({
