@@ -41,6 +41,20 @@ export class SqlDataStore implements DataStore {
       review.rating,
       review.review
     );
+
+    await this.db.run(
+      `
+      UPDATE PRODUCTS
+      SET averageRating = (
+        SELECT AVG(rating)
+        FROM REVIEWS
+        WHERE productId = ?
+      )
+      WHERE id = ?
+    `,
+      review.productId,
+      review.productId
+    );
   }
 
   getReviewsByProductId(productId: string): Promise<Review[]> {

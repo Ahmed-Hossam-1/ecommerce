@@ -42,6 +42,7 @@ const Profile = () => {
 
   const handleLogout = () => {
     cookie.remove("token");
+    sessionStorage.clear();
     nav("/signin");
   };
 

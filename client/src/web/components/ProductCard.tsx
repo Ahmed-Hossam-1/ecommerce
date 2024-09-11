@@ -1,6 +1,6 @@
 import { EffectCoverflow, Pagination } from "swiper/modules";
 import { useAppDispatch } from "../../hooks/storeHooks";
-import { addToCart, CartItem } from "../../features/cart/cartSlice";
+import { addToCart } from "../../features/cart/cartSlice";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -12,7 +12,7 @@ import { Product } from "../../types/type";
 export default function ProductCard({ products }: { products: Product[] }) {
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = (product: CartItem) => {
+  const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
 
@@ -41,9 +41,13 @@ export default function ProductCard({ products }: { products: Product[] }) {
             alt={product.name}
           />
           <div className="flex justify-between items-center px-4 absolute bottom-0 left-0 w-full bg-[rgba(0,0,0,0.7)] text-white transition-all duration-300 ease-in-out transform translate-y-full group-hover:translate-y-0 group-hover:h-[80px] h-0 overflow-hidden">
-            <ProductDetails name={product.name} price={product.price} />
+            <ProductDetails
+              name={product.name}
+              price={product.price}
+              averageRating={product.averageRating || 0}
+            />
             <ProductButton
-              id={product.id}
+              id={product.id || ""}
               handleAddToCart={() =>
                 handleAddToCart({
                   ...product,

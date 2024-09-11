@@ -14,7 +14,6 @@ const Products_page = () => {
   const columns: Column[] = [
     { key: "id", title: "ID" },
     { key: "name", title: "Name" },
-    { key: "description", title: "Description" },
     { key: "quantity", title: "Stock Quantity" },
     { key: "price", title: "Price" },
   ];

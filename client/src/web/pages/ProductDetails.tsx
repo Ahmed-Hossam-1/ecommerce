@@ -18,8 +18,9 @@ import {
   useGetReviewsByProductIdQuery,
 } from "../../features/reviews/api/reviewSlice";
 import { useAppDispatch } from "../../hooks/storeHooks";
-import { addToCart, CartItem } from "../../features/cart/cartSlice";
+import { addToCart } from "../../features/cart/cartSlice";
 import { toast } from "react-toastify";
+import { Product } from "../../types/type";
 
 const ProductDetails = () => {
   const { productId } = useParams<{ productId: string | undefined }>();
@@ -31,10 +32,10 @@ const ProductDetails = () => {
     productId: productId!,
   });
 
-  const averageRating =
-    (reviews?.reviews.reduce((acc, review) => acc + review.rating, 0) ?? 0) /
-    (reviews?.reviews.length ?? 1);
-  console.log("averageRating", averageRating);
+  // const averageRating =
+  //   (reviews?.reviews.reduce((acc, review) => acc + review.rating, 0) ?? 0) /
+  //   (reviews?.reviews.length ?? 1);
+  // console.log("averageRating", averageRating);
 
   const [createReview] = useCreateReviewMutation();
 
@@ -56,7 +57,9 @@ const ProductDetails = () => {
 
       if (res.error) {
         console.error("Failed to create review:", res);
-        toast.error(res?.error?.data.error);
+        const errorMessage = (res.error as { data: { error: string } }).data
+          .error;
+        toast.error(errorMessage);
       }
     } catch (error) {
       console.error("Failed to create review:", error);
@@ -65,7 +68,7 @@ const ProductDetails = () => {
 
   const dispatch = useAppDispatch();
 
-  const handleAddToCart = (product: CartItem) => {
+  const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
 
@@ -114,7 +117,7 @@ const ProductDetails = () => {
                       key={index}
                       icon={faStar}
                       className={`${
-                        index < averageRating
+                        index < (productData?.product?.averageRating || 0)
                           ? "text-yellow-500"
                           : "text-gray-300"
                       }`}
@@ -154,7 +157,7 @@ const ProductDetails = () => {
           <h2 className="text-4xl font-bold text-center py-10 dark:text-white">
             Reviews
           </h2>
-          <div className="w-full md:w-[50%]">
+          <div className="w-full md:w-[50%] pb-5">
             <textarea
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
@@ -188,38 +191,36 @@ const ProductDetails = () => {
               Submit
             </button>
           </div>
+          <hr className="w-full mx-auto pb-5" />
           {reviews?.reviews.map((review) => (
-            <>
-              <hr className="w-full mx-auto my-10" />
-              <div key={review.id} className="w-full md:w-[50%]">
-                <div className="flex items-start gap-2">
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    className="text-gray-700 dark:text-gray-500 bg-slate-100 p-3 rounded-full"
-                  />
-                  <div>
-                    <p className="dark:text-white">
-                      {new Date(review.createdAt).toLocaleDateString()}
-                    </p>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <FontAwesomeIcon
-                        key={index}
-                        icon={faStar}
-                        className={`${
-                          index < review.rating
-                            ? "text-yellow-500"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                  </div>
+            <div key={review.id} className="w-full md:w-[50%]">
+              <div className="flex items-start gap-2">
+                <FontAwesomeIcon
+                  icon={faUser}
+                  className="text-gray-700 dark:text-gray-500 bg-slate-100 p-3 rounded-full"
+                />
+                <div>
+                  <p className="dark:text-white">
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </p>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <FontAwesomeIcon
+                      key={index}
+                      icon={faStar}
+                      className={`${
+                        index < review.rating
+                          ? "text-yellow-500"
+                          : "text-gray-300"
+                      }`}
+                    />
+                  ))}
                 </div>
-                <p className="text-lg text-[#777] mb-3 ml-11 dark:text-white">
-                  {review.review}
-                </p>
-                <hr className="py-10" />
               </div>
-            </>
+              <p className="text-lg text-[#777] mb-3 ml-11 dark:text-white">
+                {review.review}
+              </p>
+              <hr className="pb-10" />
+            </div>
           ))}
         </div>
       </div>

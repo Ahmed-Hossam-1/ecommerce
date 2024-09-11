@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <footer className="relative w-full py-10 bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-100">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b to-[rgba(255,255,255,0.9)] from-transparent dark:to-[rgba(0,0,0,0.9)] dark:from-transparent z-[-1]"></div>
-      <div className="container mx-auto flex justify-between md:flex-row flex-col gap-y-8 px-6">
+      <div className="container flex justify-between md:flex-row flex-col gap-y-8 px-6">
         <div className="flex flex-col items-center md:items-start">
           <img className="w-[150px] mb-4" src="/images/logo1.png" alt="Logo" />
           <p className="mb-6 max-w-[300px] leading-relaxed text-center md:text-start text-gray-600 dark:text-gray-300">

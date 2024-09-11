@@ -11,10 +11,8 @@ import Statistics from "../components/Statistics";
 
 const Home = () => {
   const { data: topSellerData } = useGetTopSellerProductsQuery(undefined);
-  console.log(topSellerData);
 
   const { data: topRatedData } = useGetTopRatedProductsQuery(undefined);
-  console.log(topRatedData);
 
   return (
     <>
@@ -22,6 +20,7 @@ const Home = () => {
       <div className="pt-[84.5px]">
         <Landing />
       </div>
+      {/* top selling product */}
       <div className="py-24 bg-slate-100 dark:bg-gray-800">
         <h1 className="text-2xl md:text-4xl font-bold text-center pb-10 dark:text-white">
           Top Selling Products
@@ -29,6 +28,7 @@ const Home = () => {
 
         {topSellerData && <ProductCard products={topSellerData.products} />}
       </div>
+      {/* offers */}
       <div className="py-24 bg-slate-100 dark:bg-gray-800">
         <Offers />
       </div>
@@ -51,7 +51,7 @@ const Home = () => {
           alt="sendmail.jpg"
         />
       </div>
-
+      {/* top rating product */}
       <div className="py-24 bg-slate-100 dark:bg-gray-800">
         <h1 className="text-2xl md:text-4xl font-bold text-center pb-10 dark:text-white">
           Top Rating Products
@@ -59,12 +59,14 @@ const Home = () => {
 
         {topRatedData && <ProductCard products={topRatedData.products} />}
       </div>
+      {/* statistics */}
       <div className="pb-24 bg-slate-100 dark:bg-gray-800">
         <h1 className="text-center text-2xl md:text-4xl font-bold mb-8 text-gray-800 dark:text-gray-200">
           Statistics
         </h1>
         <Statistics />
       </div>
+      {/* footer */}
       <div>
         <Footer />
       </div>

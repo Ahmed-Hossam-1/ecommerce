@@ -6,7 +6,7 @@ const AuthRounting = ({ allowedRole }: { allowedRole: string[] }) => {
   const { data: currentUser } = useCurrentUserQuery();
 
   return isLoggedIn() ? (
-    allowedRole.includes(currentUser?.user?.role) ? (
+    allowedRole.includes(currentUser?.user?.role ?? "") ? (
       <Outlet />
     ) : (
       <h1>Access Denied</h1>

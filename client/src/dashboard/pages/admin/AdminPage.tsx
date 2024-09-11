@@ -10,6 +10,7 @@ import {
   Legend,
   ChartOptions,
 } from "chart.js";
+import { useCurrentUserQuery } from "../../../features/users/api/userSlice";
 
 ChartJS.register(
   CategoryScale,
@@ -55,52 +56,61 @@ const options: ChartOptions<"line"> = {
   },
 };
 
-// AdminPage component
 function AdminPage() {
-  return (
-    <div className="p-6 space-y-6">
-      {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-secbgDark800  shadow-md rounded-lg p-4 flex items-center justify-between">
-          <div className="text-center">
-            <span className="text-2xl font-bold text-gray-800 dark:text-white">
-              200
-            </span>
-            <div className="text-sm text-gray-600 dark:text-gray-300">
-              Users
-            </div>
-          </div>
-        </div>
-        <div className="bg-white dark:bg-secbgDark800  shadow-md rounded-lg p-4 flex items-center justify-between">
-          <div className="text-center">
-            <span className="text-2xl font-bold text-gray-800 dark:text-white">
-              1000
-            </span>
-            <div className="text-sm text-gray-600 dark:text-gray-300">
-              Orders
-            </div>
-          </div>
-        </div>
-        <div className="bg-white dark:bg-secbgDark800  shadow-md rounded-lg p-4 flex items-center justify-between">
-          <div className="text-center">
-            <span className="text-2xl font-bold text-gray-800 dark:text-white">
-              500
-            </span>
-            <div className="text-sm text-gray-600 dark:text-gray-300">
-              Sellers
-            </div>
-          </div>
-        </div>
-      </div>
+  const { data: currentUser } = useCurrentUserQuery();
 
-      {/* Chart */}
-      <div className="bg-white  dark:bg-secbgDark800 shadow-md h-[600px] rounded-lg p-1 md:p-6">
-        {/* <h2 className="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
-          Sales Overview
-        </h2> */}
-        <Line data={data} options={options} />
-      </div>
-    </div>
+  return (
+    <>
+      {currentUser?.user?.role === "admin" ? (
+        <div className="p-6 space-y-6">
+          {/* Stats Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white dark:bg-secbgDark800  shadow-md rounded-lg p-4 flex items-center justify-between">
+              <div className="text-center">
+                <span className="text-2xl font-bold text-gray-800 dark:text-white">
+                  200
+                </span>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  Users
+                </div>
+              </div>
+            </div>
+            <div className="bg-white dark:bg-secbgDark800  shadow-md rounded-lg p-4 flex items-center justify-between">
+              <div className="text-center">
+                <span className="text-2xl font-bold text-gray-800 dark:text-white">
+                  1000
+                </span>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  Orders
+                </div>
+              </div>
+            </div>
+            <div className="bg-white dark:bg-secbgDark800  shadow-md rounded-lg p-4 flex items-center justify-between">
+              <div className="text-center">
+                <span className="text-2xl font-bold text-gray-800 dark:text-white">
+                  500
+                </span>
+                <div className="text-sm text-gray-600 dark:text-gray-300">
+                  Sellers
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Chart */}
+          <div className="bg-white  dark:bg-secbgDark800 shadow-md h-[600px] rounded-lg p-1 md:p-6">
+            {/* <h2 className="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
+            Sales Overview
+          </h2> */}
+            <Line data={data} options={options} />
+          </div>
+        </div>
+      ) : (
+        <div className="bg-white  dark:bg-secbgDark800 shadow-md h-[600px] rounded-lg p-1 md:p-6">
+          <Line data={data} options={options} />
+        </div>
+      )}
+    </>
   );
 }
 

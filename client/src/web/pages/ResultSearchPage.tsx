@@ -11,6 +11,8 @@ const ResultSearchPage = () => {
   const location = useLocation();
   const { products } = location.state || { products: [] };
 
+  console.log("products", products);
+
   const dispatch = useAppDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);

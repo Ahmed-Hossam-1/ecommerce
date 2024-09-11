@@ -61,8 +61,8 @@ const App = () => {
 
         <Route element={<AuthRounting allowedRole={["admin", "seller"]} />}>
           <Route path="admin_page" element={<DashboardLayout />}>
+            <Route index element={<AdminPage />} />
             <Route element={<AuthRounting allowedRole={["admin"]} />}>
-              <Route index element={<AdminPage />} />
               {/* users */}
               <Route path="users" element={<Outlet />}>
                 <Route index element={<UsersPage />} />

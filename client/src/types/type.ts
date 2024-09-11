@@ -21,6 +21,7 @@ export interface Product {
   images?: string;
   categoryId?: string;
   sellerId?: string;
+  averageRating?: number | undefined;
 }
 
 export interface Address {

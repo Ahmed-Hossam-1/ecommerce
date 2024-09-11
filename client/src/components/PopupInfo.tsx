@@ -2,18 +2,13 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useGetOrderByUserIdQuery } from "../features/order/api/orderSlice";
+import { useCurrentUserQuery } from "../features/users/api/userSlice";
 
 const PopupInfo = ({
   setPopupOpen,
 }: {
   setPopupOpen: (value: boolean) => void;
 }) => {
-  const user = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    address: "1234 Elm Street, Springfield",
-  };
-
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpenViewOrder = () => {
@@ -21,6 +16,8 @@ const PopupInfo = ({
   };
 
   const { data: orderData } = useGetOrderByUserIdQuery();
+
+  const { data: currentUser } = useCurrentUserQuery();
 
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-20">
@@ -36,9 +33,11 @@ const PopupInfo = ({
         </button>
         <div>
           <h2 className="text-2xl font-semibold mb-2 dark:text-white">
-            {user.name}
+            {currentUser?.user.name}
           </h2>
-          <p className="text-gray-700 dark:text-white">{user.email}</p>
+          <p className="text-gray-700 dark:text-white">
+            {currentUser?.user.email}
+          </p>
           <button
             onClick={toggleOpenViewOrder}
             className="bg-blue-500 mt-4 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
@@ -66,7 +65,7 @@ const PopupInfo = ({
                 </tr>
               </thead>
               <tbody>
-                {orderData?.orders ? (
+                {orderData?.orders.length > 0 ? (
                   orderData?.orders.map((order) => (
                     <tr
                       key={order.id}
@@ -81,7 +80,10 @@ const PopupInfo = ({
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={3} className="text-center dark:text-white">
+                    <td
+                      colSpan={3}
+                      className="text-center dark:text-white pt-5"
+                    >
                       No orders found
                     </td>
                   </tr>
