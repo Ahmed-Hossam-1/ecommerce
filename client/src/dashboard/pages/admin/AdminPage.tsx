@@ -30,11 +30,11 @@ const data = {
       data: [65, 59, 80, 81, 56, 55, 40],
       borderColor: "rgb(75, 192, 192)",
     },
-    // {
-    //   label: "Sales",
-    //   data: [70, 80, 40, 50, 43, 23, 55],
-    //   borderColor: "rgb(188, 192, 75)",
-    // },
+    {
+      label: "Seller Requests",
+      data: [70, 80, 40, 50, 43, 23, 55],
+      borderColor: "rgb(188, 192, 75)",
+    },
   ],
 };
 

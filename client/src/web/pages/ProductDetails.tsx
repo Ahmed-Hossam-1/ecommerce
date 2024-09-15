@@ -32,11 +32,6 @@ const ProductDetails = () => {
     productId: productId!,
   });
 
-  // const averageRating =
-  //   (reviews?.reviews.reduce((acc, review) => acc + review.rating, 0) ?? 0) /
-  //   (reviews?.reviews.length ?? 1);
-  // console.log("averageRating", averageRating);
-
   const [createReview] = useCreateReviewMutation();
 
   const [reviewText, setReviewText] = useState("");
@@ -75,9 +70,9 @@ const ProductDetails = () => {
   return (
     <>
       <Header />
-      <div className="dark:bg-gray-800">
+      <div className="bg-slate-50 dark:bg-gray-800">
         {/* Product details */}
-        <div className="container w-full flex justify-center flex-col gap-y-10 md:flex-row pt-[130px] pb-[45px]">
+        <div className="container w-full flex justify-center flex-col gap-y-10 md:flex-row pt-[150px] pb-[45px]">
           <div className="w-full md:w-1/2">
             <Swiper
               effect={"cards"}
@@ -146,7 +141,7 @@ const ProductDetails = () => {
           </div>
         </div>
         {/* Related Product */}
-        <div className="bg-slate-50 dark:bg-gray-900 py-14">
+        <div className="bg-white dark:bg-gray-900 py-14">
           <h2 className="text-4xl font-bold text-center pb-10 dark:text-white">
             Related Products
           </h2>

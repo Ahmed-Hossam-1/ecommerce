@@ -4,8 +4,6 @@ import Header from "../components/Header";
 import { useLocation, Link } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/storeHooks";
 import { addToCart } from "../../features/cart/cartSlice";
-import { useState } from "react";
-import Pagination from "../../components/Pagination";
 
 const ResultSearchPage = () => {
   const location = useLocation();
@@ -15,16 +13,9 @@ const ResultSearchPage = () => {
 
   const dispatch = useAppDispatch();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
-
   const handleAddToCart = (product: Product) => {
     dispatch(addToCart(product));
   };
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <>
@@ -33,7 +24,7 @@ const ResultSearchPage = () => {
         {products.length > 0 ? (
           <div className="container mx-auto pt-32 pb-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {currentItems.map((product: Product) => (
+              {products.map((product: Product) => (
                 <div
                   key={product.id}
                   className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 dark:bg-gray-700"
@@ -69,11 +60,11 @@ const ResultSearchPage = () => {
               ))}
             </div>
 
-            <Pagination
+            {/* <Pagination
               itemsPerPage={itemsPerPage}
               data={products}
               setPage={setCurrentPage}
-            />
+            /> */}
           </div>
         ) : (
           <p>No products found</p>

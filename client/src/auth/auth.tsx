@@ -67,7 +67,7 @@ const Signup = () => {
 
   return (
     <div className="w-full h-[100vh] flex">
-      <div className="w-[40%] p-[30px] flex flex-col justify-center bg-mainBackground dark:bg-secbgDark800">
+      <div className="w-full lg:w-[40%] p-[30px] flex flex-col justify-center bg-mainBackground dark:bg-secbgDark800">
         <h1 className="text-[30px] text-secondary font-bold text-center pb-3 dark:text-mainTextDark">
           {pathname === "/signup" ? "Sign Up" : "Sign in"}
         </h1>
@@ -136,7 +136,7 @@ const Signup = () => {
           </Link>
         </div>
       </div>
-      <div className="relative w-[60%] h-[100vh]">
+      <div className="relative hidden lg:flex w-[60%] h-[100vh]">
         <div className="absolute bg-[rgba(0,0,0,0.3)] top-0 left-0 w-full h-full"></div>
         <img className="w-full h-full" src="/images/form.jpg" alt="" />
       </div>

@@ -35,6 +35,7 @@ export const signIn: ExpressHandler<SignInRequest, SignInResponse> = async (req,
   }
 
   const existing = await db.getUserByEmail(email);
+
   if (!existing || existing.password !== passwordHash(password)) {
     return res.status(403).send({ error: 'Invalid email or password' });
   }

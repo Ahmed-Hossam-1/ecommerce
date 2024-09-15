@@ -75,13 +75,13 @@ export const updateSellerRequestStatus: ExpressHandlerWithParams<
   }
 
   if (status === 'approved') {
-    const hashedPassword = passwordHash(request.password);
+    // const hashedPassword = passwordHash(request.password);
 
     await db.createUser({
       id: request.userId,
       name: request.name,
       email: request.email,
-      password: hashedPassword,
+      password: request.password,
       role: 'seller',
     });
 
