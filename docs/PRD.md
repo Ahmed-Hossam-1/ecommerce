@@ -2,20 +2,21 @@
 
 ## Objectives:
 
-- Providing an e-commerce platform that enables users to purchase products online.
-- Efficiently managing products, inventory, and sales.
-- Offering a smooth and secure user experience.
+- Providing an e-commerce platform that enables users to buy products online.
+- Efficiently managing products and sales.
+- Provide a smooth and secure user experience.
 
 ## Requirements Analysis:
 
 - Functional:
 
 - Login and registration.
+- Search product by category
 - Viewing products.
 - Adding products to the cart.
-- Completing the purchase.
+- Completing the buy.
 - Product reviews.
-- Managing personal accounts.
+- Show orders for each user.
 - Admin dashboard.
 
 - Non-Functional:
@@ -33,7 +34,7 @@
 
 - The web client will be implemented in React.js.
 - Uses RTK to talk to the backend.
-- Uses Tailwind CSS for building the CSS components.
+- Uses Tailwind CSS for building UI.
 
 ## Tech Stack:
 
