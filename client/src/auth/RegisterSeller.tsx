@@ -1,10 +1,10 @@
+import { useSendSellerReqMutation } from "../features/seller_req/api/seller_reqSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CustomInput from "../components/CustomInput";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { sellerRequestSchema } from "../utils/validations";
-import { z } from "zod";
-import { useSendSellerReqMutation } from "../features/seller_req/api/seller_reqSlice";
 import { toast } from "react-toastify";
+import { z } from "zod";
 
 const RegisterSeller = () => {
   type IsellerRequest = z.infer<typeof sellerRequestSchema>;
@@ -25,7 +25,7 @@ const RegisterSeller = () => {
     try {
       const res = await sendSellerReq(data).unwrap();
       toast.success(
-        res.message + ", Please check your email for further instructions"
+        res.message + ", Please check your email for more instructions"
       );
       reset();
     } catch (err) {

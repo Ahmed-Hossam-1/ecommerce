@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useAppDispatch, useAppSelector } from "../../hooks/storeHooks";
 import CartCard from "../components/CartCard";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useAppDispatch, useAppSelector } from "../../hooks/storeHooks";
 import { clearCart, removeFromCart } from "../../features/cart/cartSlice";
 import { useCreatePaymentMutation } from "../../features/payment/api/paymentSlice";
 import { totalAmount } from "../../features/cart/cartSlice";
 import { useCreateOrderMutation } from "../../features/order/api/orderSlice";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { useGetAddressByUserIdQuery } from "../../features/address/api/addressSlice";
 import { useCurrentUserQuery } from "../../features/users/api/userSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
@@ -96,7 +96,7 @@ const PaymentPage = () => {
   };
   const { data: addressData } = useGetAddressByUserIdQuery(undefined);
   const { data: userData } = useCurrentUserQuery(undefined);
-  console.log(userData);
+
   return (
     <>
       <Header />

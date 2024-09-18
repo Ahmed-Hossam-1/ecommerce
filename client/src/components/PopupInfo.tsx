@@ -45,6 +45,7 @@ const PopupInfo = ({
             {isOpen ? "Hide Orders" : "View Orders"}
           </button>
         </div>
+        {/* Order History */}
         {isOpen && (
           <div className="mt-6 h-[300px] overflow-y-auto bg-white shadow-lg rounded-lg border border-gray-200 p-4 dark:bg-thirdbgDark700">
             <h2 className="text-2xl font-semibold mb-4 dark:text-white">

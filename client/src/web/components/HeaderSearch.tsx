@@ -31,22 +31,6 @@ const HeaderSearch = () => {
     setDropdownOpen(false);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setDropdownOpen(false);
-    }
-
-    if (
-      suggestionsRef.current &&
-      !suggestionsRef.current.contains(event.target as Node)
-    ) {
-      setSuggestions([]);
-    }
-  };
-
   const [searchProduct] = useSearchProductsMutation();
 
   const performSearch = async () => {
@@ -63,7 +47,6 @@ const HeaderSearch = () => {
   };
 
   const handleSearch = async () => {
-    // const res = await performSearch();
     sessionStorage.setItem("searchTerm", searchTerm);
     sessionStorage.setItem("selectedCategory", selectedCategory || "");
     sessionStorage.setItem("selectedCategoryId", selectedCategoryId || "");
@@ -71,13 +54,6 @@ const HeaderSearch = () => {
       state: { products: allProduct },
     });
   };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -94,6 +70,29 @@ const HeaderSearch = () => {
       handleSearch();
     }
   };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setDropdownOpen(false);
+    }
+
+    if (
+      suggestionsRef.current &&
+      !suggestionsRef.current.contains(event.target as Node)
+    ) {
+      setSuggestions([]);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const { data: categoryData } = useGetAllCategoriesQuery();
 

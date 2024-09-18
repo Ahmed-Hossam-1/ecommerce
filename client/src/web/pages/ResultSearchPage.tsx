@@ -4,6 +4,8 @@ import Header from "../components/Header";
 import { useLocation, Link } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/storeHooks";
 import { addToCart } from "../../features/cart/cartSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const ResultSearchPage = () => {
   const location = useLocation();
@@ -41,9 +43,24 @@ const ResultSearchPage = () => {
                   <div className="dark:text-white p-4">
                     <div>
                       <div className="flex items-start justify-between">
-                        <h2 className="text-xl font-semibold mb-2">
-                          {product.name}
-                        </h2>
+                        <div>
+                          <h2 className="text-xl font-semibold">
+                            {product.name}
+                          </h2>
+                          <div className="flex items-center gap-1 mb-3 mt-1">
+                            {Array.from({ length: 5 }).map((_, index) => (
+                              <FontAwesomeIcon
+                                key={index}
+                                icon={faStar}
+                                className={`${
+                                  index < (product?.averageRating || 0)
+                                    ? "text-yellow-500"
+                                    : "text-gray-300"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </div>
                         <p className="text-gray-600 mb-4 dark:text-white">
                           ${product.price}
                         </p>
@@ -59,12 +76,6 @@ const ResultSearchPage = () => {
                 </div>
               ))}
             </div>
-
-            {/* <Pagination
-              itemsPerPage={itemsPerPage}
-              data={products}
-              setPage={setCurrentPage}
-            /> */}
           </div>
         ) : (
           <p>No products found</p>
